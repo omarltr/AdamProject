@@ -41,14 +41,22 @@ class Annonce
     private Collection $avis;
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
-    private ?Etat $Etat = null;
-
-    #[ORM\ManyToOne(inversedBy: 'annonces')]
     private ?Categorie $categorie = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $etat = null;
+
+    #[ORM\OneToMany(targetEntity: Images::class, mappedBy: 'annonce')]
+    private Collection $images;
+
+    #[ORM\ManyToMany(targetEntity: Equipements::class, mappedBy: 'annonce')]
+    private Collection $equipements;
 
     public function __construct()
     {
         $this->avis = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->equipements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -170,17 +178,7 @@ class Annonce
         return $this;
     }
 
-    public function getEtat(): ?Etat
-    {
-        return $this->Etat;
-    }
 
-    public function setEtat(?Etat $Etat): static
-    {
-        $this->Etat = $Etat;
-
-        return $this;
-    }
 
     public function getCategorie(): ?Categorie
     {
@@ -190,6 +188,75 @@ class Annonce
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getEtat(): ?int
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(int $etat): static
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Images>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getAnnonce() === $this) {
+                $image->setAnnonce(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Equipements>
+     */
+    public function getEquipements(): Collection
+    {
+        return $this->equipements;
+    }
+
+    public function addEquipement(Equipements $equipement): static
+    {
+        if (!$this->equipements->contains($equipement)) {
+            $this->equipements->add($equipement);
+            $equipement->addAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipement(Equipements $equipement): static
+    {
+        if ($this->equipements->removeElement($equipement)) {
+            $equipement->removeAnnonce($this);
+        }
 
         return $this;
     }
