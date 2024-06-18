@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
+
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
 {
@@ -18,8 +20,13 @@ class Categorie
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    
+
     #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'categorie')]
     private Collection $annonces;
+
+    #[ORM\Column(length: 255)]
+    private ?string $icon = null;
 
     public function __construct()
     {
@@ -43,6 +50,7 @@ class Categorie
 
         return $this;
     }
+    
 
     /**
      * @return Collection<int, Annonce>
@@ -74,9 +82,23 @@ class Categorie
         return $this;
     }
 
+
 public function __toString():string
 {
     return $this->nom;
 }
+
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(string $icon): static
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
 
 }

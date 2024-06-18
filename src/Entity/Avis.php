@@ -26,6 +26,9 @@ class Avis
     #[ORM\ManyToOne(inversedBy: 'avis')]
     private ?Annonce $annonce = null;
 
+    #[ORM\ManyToOne(inversedBy: 'avis')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Avis
     public function setAnnonce(?Annonce $annonce): static
     {
         $this->annonce = $annonce;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
