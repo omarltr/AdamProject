@@ -31,6 +31,7 @@ class Categorie
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
+       
     }
 
     public function getId(): ?int
@@ -81,6 +82,13 @@ class Categorie
         return $this;
     }
 
+
+public function __toString():string
+{
+    return $this->nom;
+}
+
+
     public function getIcon(): ?string
     {
         return $this->icon;
@@ -92,4 +100,5 @@ class Categorie
 
         return $this;
     }
+
 }
