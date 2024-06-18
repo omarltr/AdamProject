@@ -52,6 +52,9 @@ class Annonce
     #[ORM\ManyToMany(targetEntity: Equipements::class, mappedBy: 'annonce')]
     private Collection $equipements;
 
+    #[ORM\ManyToOne(inversedBy: 'annonce')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->avis = new ArrayCollection();
@@ -257,6 +260,18 @@ class Annonce
         if ($this->equipements->removeElement($equipement)) {
             $equipement->removeAnnonce($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

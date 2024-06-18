@@ -23,6 +23,9 @@ class Reclamation
     #[ORM\Column(length: 255)]
     private ?string $sujet = null;
 
+    #[ORM\ManyToOne(inversedBy: 'reclamation')]
+    private ?User $user = null;
+
     public function __construct()
     {
         // Initialiser la date de création à la date et heure actuelles
@@ -66,6 +69,18 @@ class Reclamation
     public function setSujet(string $sujet): static
     {
         $this->sujet = $sujet;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
