@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AnnonceRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -57,6 +58,7 @@ class Annonce
         $this->avis = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->equipements = new ArrayCollection();
+        $this->date_creation = new \DateTime();
     }
 
     public function getId(): ?int
