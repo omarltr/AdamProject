@@ -14,15 +14,36 @@ class Reclamation
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    #[ORM\Column(length: 255)]
+    private ?string $sujet = null;
+
+    public function __construct()
+    {
+        // Initialiser la date de création à la date et heure actuelles
+        $this->date = new \DateTime();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDateReclamation(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDateReclamation(\DateTimeInterface $date): static
+    {
+        $this->date = $date;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -37,14 +58,14 @@ class Reclamation
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getSujet(): ?string
     {
-        return $this->date;
+        return $this->sujet;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setSujet(string $sujet): static
     {
-        $this->date = $date;
+        $this->sujet = $sujet;
 
         return $this;
     }
