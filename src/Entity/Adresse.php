@@ -27,7 +27,7 @@ class Adresse
     private ?string $pays = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?annonce $annonce = null;
+    private ?Annonce $annonce = null;
 
     #[ORM\Column(length: 255)]
     private ?string $complement = null;
@@ -85,12 +85,12 @@ class Adresse
         return $this;
     }
 
-    public function getAnnonce(): ?annonce
+    public function getAnnonce(): ?Annonce
     {
         return $this->annonce;
     }
 
-    public function setAnnonce(?annonce $annonce): static
+    public function setAnnonce(?Annonce $annonce): static
     {
         $this->annonce = $annonce;
 

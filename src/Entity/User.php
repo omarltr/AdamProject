@@ -51,19 +51,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\OneToMany(targetEntity: avis::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user')]
     private Collection $avis;
 
-    #[ORM\OneToMany(targetEntity: reservation::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'user')]
     private Collection $reservation;
 
     #[ORM\OneToMany(targetEntity: reclamation::class, mappedBy: 'user')]
     private Collection $reclamation;
 
-    #[ORM\OneToMany(targetEntity: annonce::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'user')]
     private Collection $annonce;
 
-    #[ORM\OneToMany(targetEntity: paiement::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'user')]
     private Collection $paiement;
 
     public function __construct()
@@ -339,14 +339,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, annonce>
+     * @return Collection<int, Annonce>
      */
     public function getAnnonce(): Collection
     {
         return $this->annonce;
     }
 
-    public function addAnnonce(annonce $annonce): static
+    public function addAnnonce(Annonce $annonce): static
     {
         if (!$this->annonce->contains($annonce)) {
             $this->annonce->add($annonce);
@@ -356,7 +356,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeAnnonce(annonce $annonce): static
+    public function removeAnnonce(Annonce $annonce): static
     {
         if ($this->annonce->removeElement($annonce)) {
             // set the owning side to null (unless already changed)
