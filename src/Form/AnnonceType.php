@@ -6,6 +6,7 @@ use App\Entity\Annonce;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class AnnonceType extends AbstractType
 {
@@ -20,6 +21,7 @@ class AnnonceType extends AbstractType
             ->add('prix')
             ->add('categorie')
             ->add('equipements')
+            ->add('etat', HiddenType::class, ['data' => 1, ])
         ;
     }
 
