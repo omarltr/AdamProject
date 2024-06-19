@@ -22,7 +22,14 @@ class RegistrationFormType extends AbstractType
             ->add('nom')
             ->add('n_telephone')
             ->add('prenom')
-            ->add('date_de_naissance', DateType::class)            
+            ->add('date_de_naissance', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => false, 
+                'attr' => [
+                    'class' => 'form-control custom-date', 
+                    'placeholder' => 'JJ/MM/AAAA', 
+                ],
+            ])       
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
