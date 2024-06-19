@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -57,7 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'user')]
     private Collection $reservation;
 
-    #[ORM\OneToMany(targetEntity: reclamation::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'user')]
     private Collection $reclamation;
 
     #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'user')]
