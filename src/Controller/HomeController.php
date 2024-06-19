@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AnnonceRepository;
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(AnnonceRepository $etat , EntityManagerInterface $em ): Response
     {
         // Fetch all categories
