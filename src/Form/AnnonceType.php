@@ -13,7 +13,6 @@ class AnnonceType extends AbstractType
     {
         $builder
             ->add('nom')
-          
             ->add('description')
             ->add('message')
             ->add('date_debut')

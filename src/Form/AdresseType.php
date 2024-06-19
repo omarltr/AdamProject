@@ -17,7 +17,6 @@ class AdresseType extends AbstractType
             ->add('codePostal')
             ->add('pays')
             ->add('complement')
-            ->add('annonce')
         ;
     }
 

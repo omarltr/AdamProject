@@ -33,7 +33,7 @@ class AdresseController extends AbstractController
             $entityManager->persist($adresse);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_adresse_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_annonce_new', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('adresse/new.html.twig', [
