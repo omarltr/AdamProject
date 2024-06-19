@@ -25,6 +25,7 @@ class RegistrationFormType extends AbstractType
             ->add('date_de_naissance', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => false, 
+                'format' => 'dd/MM/yyyy', // 'yyyy-MM-dd
                 'attr' => [
                     'class' => 'form-control custom-date', 
                     'placeholder' => 'JJ/MM/AAAA', 

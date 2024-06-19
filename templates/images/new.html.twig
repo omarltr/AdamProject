@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Images{% endblock %}
+
+{% block body %}
+  
+
+                
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="wow fadeInUp" data-wow-delay="0.5s">
+                    <h1>Ajouter des images pour l'annonce</h1>
+                    {% include "images/_form.html.twig" %}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="wow fadeInUp" data-wow-delay="0.5s">
+                        <img src="{{ asset('images/location.png') }}" class="img-fluid rounded" alt="Location Image" style="max-height: 100%; width: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
