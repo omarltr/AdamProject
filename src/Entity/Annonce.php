@@ -44,6 +44,7 @@ class Annonce
     #[ORM\ManyToOne(inversedBy: 'annonces')]
     private ?Categorie $categorie = null;
 
+
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $etat = null;
 
@@ -55,6 +56,9 @@ class Annonce
 
     #[ORM\ManyToOne(inversedBy: 'annonce')]
     private ?User $user = null;
+
+    #[ORM\OneToOne(mappedBy: 'annonce', cascade: ['persist', 'remove'])]
+    private ?Adresse $adresse = null;
 
     public function __construct()
     {
@@ -182,7 +186,7 @@ class Annonce
 
         return $this;
     }
-
+ 
 
 
     public function getCategorie(): ?Categorie
@@ -274,6 +278,28 @@ class Annonce
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresse
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresse $adresse): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($adresse === null && $this->adresse !== null) {
+            $this->adresse->setAnnonce(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($adresse !== null && $adresse->getAnnonce() !== $this) {
+            $adresse->setAnnonce($this);
+        }
+
+        $this->adresse = $adresse;
 
         return $this;
     }

@@ -1,4 +1,79 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="row g-3">
+    <!-- Champs existants -->
+    <div class="col-md-6">
+        <div class="form-floating">
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'id': 'nom'}}) }}
+            {{ form_label(form.nom, 'Nom', {'label_attr': {'for': 'nom'}}) }}
+            {{ form_errors(form.nom) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating">
+            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'id': 'description', 'style': 'height: 150px'}}) }}
+            {{ form_label(form.description, 'Description', {'label_attr': {'for': 'description'}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            {{ form_widget(form.message, {'attr': {'class': 'form-control', 'id': 'message', 'style': 'height: 150px'}}) }}
+            {{ form_label(form.message, 'Message', {'label_attr': {'for': 'message'}}) }}
+            {{ form_errors(form.message) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating">
+            {{ form_widget(form.date_debut, {'attr': {'class': 'form-control', 'id': 'date_debut'}}) }}
+            {{ form_label(form.date_debut, 'Date de Début', {'label_attr': {'for': 'date_debut'}}) }}
+            {{ form_errors(form.date_debut) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating">
+            {{ form_widget(form.date_fin, {'attr': {'class': 'form-control', 'id': 'date_fin'}}) }}
+            {{ form_label(form.date_fin, 'Date de Fin', {'label_attr': {'for': 'date_fin'}}) }}
+            {{ form_errors(form.date_fin) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating">
+            {{ form_widget(form.prix, {'attr': {'class': 'form-control', 'id': 'prix'}}) }}
+            {{ form_label(form.prix, 'Prix', {'label_attr': {'for': 'prix'}}) }}
+            {{ form_errors(form.prix) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating">
+            {{ form_widget(form.categorie, {'attr': {'class': 'form-control', 'id': 'categorie'}}) }}
+            {{ form_label(form.categorie, 'Catégorie', {'label_attr': {'for': 'categorie'}}) }}
+            {{ form_errors(form.categorie) }}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            {{ form_widget(form.equipements, {'attr': {'class': 'form-control', 'id': 'equipements'}}) }}
+            {{ form_label(form.equipements, 'Équipements', {'label_attr': {'for': 'equipements'}}) }}
+            {{ form_errors(form.equipements) }}
+        </div>
+    </div>
+    
+    <!-- Nouvelle rangée pour la vidéo -->
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="wow fadeInUp" data-wow-delay="0.5s" style="text-align: center;">
+                <video width="80%" height="auto" id="myVideo" controls autoplay>
+                    <source src="{{ asset('videos/annonce.mp4') }}" type="video/mp4">
+                    <!-- Ajoutez d'autres sources ici pour une compatibilité multi-navigateurs -->
+                    Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+                </video>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bouton Suivant -->
+    <div class="col-12">
+        <button class="btn btn-primary w-100 py-3" type="submit">Suivant</button>
+    </div>
+</div>
 {{ form_end(form) }}

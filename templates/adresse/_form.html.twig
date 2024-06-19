@@ -1,0 +1,42 @@
+ {{ form_start(form) }}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ form_widget(form.rue, {'attr': {'class': 'form-control', 'id': 'rue'}}) }}
+                            {{ form_label(form.rue, 'Rue', {'label_attr': {'for': 'rue'}}) }}
+                            {{ form_errors(form.rue) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ form_widget(form.ville, {'attr': {'class': 'form-control', 'id': 'ville'}}) }}
+                            {{ form_label(form.ville, 'Ville', {'label_attr': {'for': 'ville'}}) }}
+                            {{ form_errors(form.ville) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ form_widget(form.codePostal, {'attr': {'class': 'form-control', 'id': 'codePostal'}}) }}
+                            {{ form_label(form.codePostal, 'Code Postal', {'label_attr': {'for': 'codePostal'}}) }}
+                            {{ form_errors(form.codePostal) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ form_widget(form.pays, {'attr': {'class': 'form-control', 'id': 'pays'}}) }}
+                            {{ form_label(form.pays, 'Pays', {'label_attr': {'for': 'pays'}}) }}
+                            {{ form_errors(form.pays) }}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            {{ form_widget(form.complement, {'attr': {'class': 'form-control', 'id': 'complement', 'style': 'height: 150px'}}) }}
+                            {{ form_label(form.complement, 'Complement', {'label_attr': {'for': 'complement'}}) }}
+                            {{ form_errors(form.complement) }}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100 py-3" type="submit">Suivant</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}

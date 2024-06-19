@@ -32,7 +32,6 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($annonce);
             $entityManager->flush();
-
             return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
         }
 

@@ -26,11 +26,13 @@ class Adresse
     #[ORM\Column(length: 255)]
     private ?string $pays = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Annonce $annonce = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $complement = null;
+
+    #[ORM\OneToOne(inversedBy: 'adresse', cascade: ['persist', 'remove'])]
+    private ?Annonce $annonce = null;
 
     public function getId(): ?int
     {
@@ -85,18 +87,6 @@ class Adresse
         return $this;
     }
 
-    public function getAnnonce(): ?Annonce
-    {
-        return $this->annonce;
-    }
-
-    public function setAnnonce(?Annonce $annonce): static
-    {
-        $this->annonce = $annonce;
-
-        return $this;
-    }
-
     public function getComplement(): ?string
     {
         return $this->complement;
@@ -105,6 +95,18 @@ class Adresse
     public function setComplement(string $complement): static
     {
         $this->complement = $complement;
+
+        return $this;
+    }
+
+    public function getAnnonce(): ?Annonce
+    {
+        return $this->annonce;
+    }
+
+    public function setAnnonce(?Annonce $annonce): static
+    {
+        $this->annonce = $annonce;
 
         return $this;
     }

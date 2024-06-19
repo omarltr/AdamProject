@@ -1,11 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Annonce{% endblock %}
+{% block title %}New Annonce
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Annonce</h1>
+	<div class="container">
+		
+		<div class="row mt-3">
+			<div class="col-md-12">
+				<div class="wow fadeInUp" data-wow-delay="0.5s">
+					<h1>Créer une nouvelle Annonce</h1>
+					{% include "annonce/_form.html.twig" %}
+				</div>
+			</div>
+		</div>
+		
+	</div>
 
-    {{ include('annonce/_form.html.twig') }}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+var video = document.getElementById('myVideo');
+video.play();
+});
+	</script>
 
-    <a href="{{ path('app_annonce_index') }}">back to list</a>
 {% endblock %}
