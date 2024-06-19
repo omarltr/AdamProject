@@ -60,6 +60,9 @@ class Annonce
     #[ORM\OneToOne(mappedBy: 'annonce', cascade: ['persist', 'remove'])]
     private ?Adresse $adresse = null;
 
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $capacite = null;
+
     public function __construct()
     {
         $this->avis = new ArrayCollection();
@@ -300,6 +303,18 @@ class Annonce
         }
 
         $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getCapacite(): ?int
+    {
+        return $this->capacite;
+    }
+
+    public function setCapacite(?int $capacite): static
+    {
+        $this->capacite = $capacite;
 
         return $this;
     }
