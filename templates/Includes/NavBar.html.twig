@@ -25,7 +25,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end rounded-0" aria-labelledby="navbarDropdown">
                             <li><a href="{{path('app_profil')}}" class="dropdown-item">Mon Profil</a></li>
-                            <li><a href="#" class="dropdown-item">Paramètres</a></li>
+                            <li><a href="{{path('app_profil')}}" class="dropdown-item">Paramètres</a></li>
                             <li><a href="{{ path('app_logout') }}" class="dropdown-item">Déconnexion</a></li>
                         </ul>
                     </div>
@@ -34,7 +34,7 @@
                     <a href="{{ path('app_register') }}" class="nav-item nav-link">Inscription</a>
                 {% endif %}
             </div>
-            <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Publier un logement</a>
+            <a href="{{ path('app_annonce_new') }}" class="btn btn-primary px-3 d-none d-lg-flex">Publier un logement</a>
 
         </div>
     </nav>

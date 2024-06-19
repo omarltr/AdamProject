@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Annonce;
 
 #[Route('/adresse')]
 class AdresseController extends AbstractController
@@ -22,18 +23,19 @@ class AdresseController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_adresse_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_adresse_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, Annonce $annonce): Response
     {
         $adresse = new Adresse();
         $form = $this->createForm(AdresseType::class, $adresse);
         $form->handleRequest($request);
-
+        $annonceId = $annonce->getId();
         if ($form->isSubmitted() && $form->isValid()) {
+            $adresse->setAnnonce($annonce);
             $entityManager->persist($adresse);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_annonce_new', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_images_new',  [ 'id' => $annonceId], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('adresse/new.html.twig', [

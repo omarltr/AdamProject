@@ -30,9 +30,11 @@ class AnnonceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
             $entityManager->persist($annonce);
             $entityManager->flush();
-            return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
+            $annonceId = $annonce->getId();
+            return $this->redirectToRoute('app_adresse_new', [ 'id' => $annonceId], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('annonce/new.html.twig', [
@@ -71,6 +73,7 @@ class AnnonceController extends AbstractController
     public function delete(Request $request, Annonce $annonce, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$annonce->getId(), $request->request->get('_token'))) {
+            
             $entityManager->remove($annonce);
             $entityManager->flush();
         }
