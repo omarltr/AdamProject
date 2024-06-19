@@ -59,7 +59,7 @@ class DashboardController extends AbstractController
 
     //partie annonces
 
-    #[Route('/annonce', name: 'app_annonce_index', methods: ['GET'])]
+    #[Route('/annonce', name: 'app_annonce', methods: ['GET'])]
     public function listAnnonce(AnnonceRepository $annonceRepository): Response
     {
         return $this->render('dashboard/annonce/index.html.twig', [
