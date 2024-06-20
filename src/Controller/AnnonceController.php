@@ -10,15 +10,55 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Images;
+use App\Entity\Categorie;
+
 
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
 {
     #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
-    public function index(AnnonceRepository $annonceRepository): Response
+    public function index(AnnonceRepository $annonceRepository , EntityManagerInterface $em): Response
     {
+        $Annonces= $annonceRepository->findAll();
+        $repository = $em->getRepository(Categorie::class);
+        $Categories = $repository->findAll();
+
+        $Images = [];
+        foreach ($Annonces as $annonce) {
+            $image = $em->getRepository(Images::class)->findOneBy(['annonce' => $annonce->getId(), 'is_principal' => true]);
+            if ($image) {
+                $Images[$annonce->getId()] = $image;
+            }
+        }
+        
         return $this->render('annonce/index.html.twig', [
-            'annonces' => $annonceRepository->findAll(),
+            'Annonces' => $Annonces,
+            'Images' => $Images,
+            'Categories' => $Categories
+
+        ]);
+    }
+    #[Route('/{id}', name: 'app_annonce_categorie', methods: ['GET'])]
+    public function categorie(AnnonceRepository $annonceRepository , EntityManagerInterface $em, Categorie $categorie): Response
+    {
+        $Annonces= $annonceRepository->findBy(['categorie' => $categorie->getId()]);
+        $repository = $em->getRepository(Categorie::class);
+        $Categories = $repository->findAll();
+
+        $Images = [];
+        foreach ($Annonces as $annonce) {
+            $image = $em->getRepository(Images::class)->findOneBy(['annonce' => $annonce->getId(), 'is_principal' => true]);
+            if ($image) {
+                $Images[$annonce->getId()] = $image;
+            }
+        }
+        
+        return $this->render('annonce/index.html.twig', [
+            'Annonces' => $Annonces,
+            'Images' => $Images,
+            'Categories' => $Categories
+
         ]);
     }
 
@@ -28,6 +68,7 @@ class AnnonceController extends AbstractController
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
+        $annonce->setUser($this->getUser());
 
         if ($form->isSubmitted() && $form->isValid()) {
            
