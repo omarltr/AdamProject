@@ -39,7 +39,7 @@ class AnnonceController extends AbstractController
 
         ]);
     }
-    #[Route('/{id}', name: 'app_annonce_categorie', methods: ['GET'])]
+    #[Route('/categorie/{id}', name: 'app_annonce_categorie', methods: ['GET'])]
     public function categorie(AnnonceRepository $annonceRepository , EntityManagerInterface $em, Categorie $categorie): Response
     {
         $Annonces= $annonceRepository->findBy(['categorie' => $categorie->getId()]);
