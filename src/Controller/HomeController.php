@@ -8,7 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Categorie;
 use App\Entity\Annonce;
 use App\Entity\Adresse;
-use App\Entity\Images;  // Make sure to import the Images entity
+use App\Entity\Images;
+use App\Entity\Avis;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AnnonceRepository;
 class HomeController extends AbstractController
@@ -16,14 +17,14 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(AnnonceRepository $etat , EntityManagerInterface $em ): Response
     {
-        // Fetch all categories
+       
         $repository = $em->getRepository(Categorie::class);
         $Categories = $repository->findAll();
-
-        // Fetch all annonces (announcements)
         $Annonces = $em->getRepository(Annonce::class)->findAll();
+        $user = $this->getUser();
+        $Avis = $em->getRepository(Avis::class)->findAll();
 
-        // Example: Fetch related Adresse (Address) for each Annonce
+    
         $Adresses = [];
         foreach ($Annonces as $annonce) {
             $adresse = $em->getRepository(Adresse::class)->findOneBy(['annonce' => $annonce->getId()]);
@@ -48,6 +49,8 @@ class HomeController extends AbstractController
             'Annonces' => $Annonces,
             'Adresses' => $Adresses,
             'Images' => $Images,
+            'Avis' => $Avis,
+            'user' => $user
         ]);
     }
 

@@ -6,12 +6,11 @@
 	<div class="container-fluid header bg-white p-0">
 		<div class="row g-0 align-items-center flex-column-reverse flex-md-row">
 			<div class="col-md-6 p-5 mt-lg-5">
-				<h1 class="display-5 animated fadeIn mb-4">Find A
-					<span class="text-primary">Perfect Home</span>
-					To Live With Your Family</h1>
-				<p class="animated fadeIn mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet
-					                        sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-				<a href="" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Get Started</a>
+				<h1 class="display-5 animated fadeIn mb-4">Trouver  
+					<span class="text-primary">la maison idéale</span>
+					pour vivre avec votre famille</h1>
+				<p class="animated fadeIn mb-4 pb-2">Trouvez la maison idéale pour vivre avec votre famille, un lieu où vous pourrez créer des souvenirs inoubliables.</p>
+				<a href="" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Commencez dès maintenant </a>
 			</div>
 			<div class="col-md-6 animated fadeIn">
 				<div class="owl-carousel header-carousel">
@@ -32,8 +31,8 @@
 	<div class="container-xxl py-5">
     <div class="container">
         <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-            <h1 class="mb-3">Property Types</h1>
-            <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
+            <h1 class="mb-3">Types de propriétés</h1>
+            <p>Découvrez différents types de propriétés pour trouver celle qui correspond parfaitement à vos besoins.</p>
         </div>
         <div class="row g-4">
             {% for Categorie in Categories %}
@@ -63,23 +62,11 @@
 			<div class="row g-0 gx-5 align-items-end">
 				<div class="col-lg-6">
 					<div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-						<h1 class="mb-3">Property Listing</h1>
-						<p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit diam justo sed rebum.</p>
+						<h1 class="mb-3">Liste de propriétés</h1>
+						<p>Explorez notre sélection variée de listes de propriétés pour trouver celle qui correspond le mieux à vos besoins et préférences.</p>
 					</div>
 				</div>
-				<div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-					<ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-						<li class="nav-item me-2">
-							<a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">Featured</a>
-						</li>
-						<li class="nav-item me-2">
-							<a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">For Sell</a>
-						</li>
-						<li class="nav-item me-0">
-							<a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">For Rent</a>
-						</li>
-					</ul>
-				</div>
+				
 			</div>
 			<div class="tab-content">
 				<div id="tab-1" class="tab-pane fade show p-0 active">
@@ -123,11 +110,9 @@
                 </div>
             </div>
         {% endfor %}
-
-
 						</div>
 						<div class="col-12 text-center">
-							<a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
+							<a class="btn btn-primary py-3 px-5" href="">Parcourez plus</a>
 						</div>
 					</div>
 				</div>
@@ -145,15 +130,15 @@
 					</div>
 				</div>
 				<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-					<h1 class="mb-4">#1 Place To Find The Perfect Property</h1>
-					<p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+					<h1 class="mb-4">#1 Endroit pour Trouver la Propriété Parfaite</h1>
+					<p class="mb-4">Découvrez une sélection de propriétés adaptées à vos besoins spécifiques.</p>
 					<p>
-						<i class="fa fa-check text-primary me-3"></i>Tempor erat elitr rebum at clita</p>
+						<i class="fa fa-check text-primary me-3"></i>Trouvez la maison idéale pour vous et votre famille</p>
 					<p>
-						<i class="fa fa-check text-primary me-3"></i>Aliqu diam amet diam et eos</p>
+						<i class="fa fa-check text-primary me-3"></i>Découvrez des options variées pour votre futur domicile</p>
 					<p>
-						<i class="fa fa-check text-primary me-3"></i>Clita duo justo magna dolore erat amet</p>
-					<a class="btn btn-primary py-3 px-5 mt-3" href="">Read More</a>
+						<i class="fa fa-check text-primary me-3"></i>Trouvez la propriété parfaite qui correspond à vos attentes</p>
+					<a class="btn btn-primary py-3 px-5 mt-3" href="{{ path('app_annonce')}}">Explorez !</a>
 				</div>
 			</div>
 		</div>
@@ -171,13 +156,12 @@
 						</div>
 						<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
 							<div class="mb-4">
-								<h1 class="mb-3">Contact With Our Certified Agent</h1>
-								<p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
+								<h1 class="mb-3">Contactez notre agent certifié</h1>
+								<p>Prenez contact avec notre agent certifié pour obtenir plus d'informations.</p>
 							</div>
-							<a href="" class="btn btn-primary py-3 px-4 me-2">
-								<i class="fa fa-phone-alt me-2"></i>Make A Call</a>
+						
 							<a href="" class="btn btn-dark py-3 px-4">
-								<i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
+								<i class="fa fa-envelope me-2"></i>Contactez nous !</a>
 						</div>
 					</div>
 				</div>
@@ -191,46 +175,34 @@
 	<div class="container-xxl py-5">
 		<div class="container">
 			<div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-				<h1 class="mb-3">Our Clients Say!</h1>
-				<p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
+				<h1 class="mb-3">Ce que disent nos clients !</h1>
+				<p>Les témoignages et retours de nos clients nous aident à améliorer nos services et à mieux répondre à vos besoins.</p>
 			</div>
 			<div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
-				<div class="testimonial-item bg-light rounded p-3">
-					<div class="bg-white border rounded p-4">
-						<p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd erat eos</p>
-						<div class="d-flex align-items-center">
-							<img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-1.jpg" style="width: 45px; height: 45px;">
-							<div class="ps-3">
-								<h6 class="fw-bold mb-1">Client Name</h6>
-								<small>Profession</small>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="testimonial-item bg-light rounded p-3">
-					<div class="bg-white border rounded p-4">
-						<p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd erat eos</p>
-						<div class="d-flex align-items-center">
-							<img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-2.jpg" style="width: 45px; height: 45px;">
-							<div class="ps-3">
-								<h6 class="fw-bold mb-1">Client Name</h6>
-								<small>Profession</small>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="testimonial-item bg-light rounded p-3">
-					<div class="bg-white border rounded p-4">
-						<p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd erat eos</p>
-						<div class="d-flex align-items-center">
-							<img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-3.jpg" style="width: 45px; height: 45px;">
-							<div class="ps-3">
-								<h6 class="fw-bold mb-1">Client Name</h6>
-								<small>Profession</small>
-							</div>
-						</div>
-					</div>
-				</div>
+{% for avis in Avis %}
+    <div class="testimonial-item bg-light rounded p-3">
+        <div class="bg-white border rounded p-4">
+            <p>{{ avis.commentaire }}</p> <h5 class="card-title">
+        {% for i in range(1, 5) %}
+            {% if i <= avis.note %}
+                <i class="fas fa-star text-warning"></i>
+            {% else %}
+                <i class="far fa-star text-warning"></i>
+            {% endif %}
+        {% endfor %}
+    </h5>
+            <div class="d-flex align-items-center">
+                {% set user = avis.user %}
+				<img class="img-fluid flex-shrink-0 rounded" src="{{ asset('/uploads/Profilephoto/' ~ user.photo) }}" style="width: 45px; height: 45px;">
+                <div class="ps-3">
+                    <h6 class="fw-bold mb-1">{{ user.nom }} {{ user.prenom }}</h6>
+                    <small>Publié le : {{ avis.date|date('Y-m-d H:i:s') }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
 			</div>
 		</div>
 	</div>
