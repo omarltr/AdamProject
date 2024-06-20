@@ -31,7 +31,8 @@ class Adresse
     #[ORM\Column(length: 255)]
     private ?string $complement = null;
 
-    #[ORM\OneToOne(inversedBy: 'adresse', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'adresse')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?Annonce $annonce = null;
 
     public function getId(): ?int

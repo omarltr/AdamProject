@@ -17,7 +17,9 @@ class Paiement
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'paiement')]
+    #[ORM\ManyToOne(inversedBy: 'paiement',)]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+
     private ?User $user = null;
 
     #[ORM\Column(length: 255)]
