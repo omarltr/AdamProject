@@ -1,6 +1,23 @@
 {% extends "base2.html.twig" %}
 
+{% block header %}
+ <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          <h1 class="m-0">Reclamation</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{ path('app_dashboard') }}">Dashboard</a></li>
+              <li class="breadcrumb-item active">Annonce</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
 
+{% endblock %}
 {% block body %}
 	<div class="container-fluid">
 		<section
@@ -8,53 +25,48 @@
 
 			<!-- Default box -->
 			<div class="card">
-				 <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Date_creation</th>
-                <th>Description</th>
-                <th>Message</th>
-                <th>Date_debut</th>
-                <th>Date_fin</th>
-                <th>Prix</th>
-                <th>Etat</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for annonce in annonces %}
-            <tr>
-                <td>{{ annonce.id }}</td>
-                <td>{{ annonce.nom }}</td>
-                <td>{{ annonce.dateCreation ? annonce.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ annonce.description }}</td>
-                <td>{{ annonce.message }}</td>
-                <td>{{ annonce.dateDebut ? annonce.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ annonce.dateFin ? annonce.dateFin|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ annonce.prix }}</td>
-                <td>{{ annonce.etat }}</td>
-                <td>
-                    <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
-                    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+				<table class="table">
+					<thead>
+						<tr>
+						
+							<th>Nom</th>
+							<th>Date_creation</th>
+							<th>Description</th>
+							<th>Message</th>
+							<th>Date_debut</th>
+							<th>Date_fin</th>
+							<th>Prix</th>
+							<th>Etat</th>
+							<th>actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for annonce in annonces %}
+							<tr>
+							
+								<td>{{ annonce.nom }}</td>
+								<td>{{ annonce.dateCreation ? annonce.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+								<td>{{ annonce.description }}</td>
+								<td>{{ annonce.message }}</td>
+								<td>{{ annonce.dateDebut ? annonce.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+								<td>{{ annonce.dateFin ? annonce.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+								<td>{{ annonce.prix }}</td>
+								<td>{{ annonce.etat }}</td>
+								<td>
+									<a href="{{ path('app_annonce_show_admin', {'id': annonce.id}) }}">show</a>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="10">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 
-    <a href="{{ path('app_annonce_new') }}">Create new</a>
-			
-	</div>
+			</div>
 		</section>
 
 
-</div>
+	</div>
 {% endblock %}
-
-
