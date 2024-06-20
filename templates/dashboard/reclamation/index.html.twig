@@ -72,7 +72,7 @@
 								<td>
 									<ul class="list-inline">
 										<li class="list-inline-item">
-											<img alt="Avatar" class="table-avatar" src="">
+											<img alt="Avatar" class="table-avatar" src="{{ asset('uploads/Profilephoto/' ~ reclamation.user.photo ) }}">
 										</li>
 									</ul>
 								</td>
@@ -80,13 +80,9 @@
 								<td>{{ reclamation.sujet}}</td>
                                 <td></td>
 								<td class="project-actions text-right">
-									<a class="btn btn-primary btn-sm" href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">
+									<a class="btn btn-primary btn-sm" href="{{ path('app_reclamation_show_admin', {'id': reclamation.id}) }}">
 										<i class="fas fa-folder"></i>
 										View
-									</a>
-									<a class="btn btn-danger btn-sm" href="#">
-										<i class="fas fa-trash"></i>
-                                        {{ include('dashboard/reclamation/_delete_form.html.twig') }}
 									</a>
 								</td>
 							</tr>
