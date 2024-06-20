@@ -24,10 +24,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractController
 {
     #[Route('', name: 'app_dashboard')]
-    public function index(): Response
+    public function index(AnnonceRepository $annonceRepository, UserRepository $userRepository): Response
     {
+        
+
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
+            'users' => $userRepository->findAll(),
+            'annonces' => $annonceRepository->findAll()
         ]);
     }
 
@@ -41,7 +45,7 @@ class DashboardController extends AbstractController
             'reclamations' => $reclamationRepository->findAll(),
         ]);
     }
-    #[Route('/reclamation/{id}', name: 'app_reclamation_show', methods: ['GET'])]
+    #[Route('/reclamation/{id}', name: 'app_reclamation_show_admin', methods: ['GET'])]
     public function show(Reclamation $reclamation): Response
     {
         return $this->render('dashboard/reclamation/show.html.twig', [
@@ -57,7 +61,7 @@ class DashboardController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_reclamation', [], Response::HTTP_SEE_OTHER);
     }
 
     //partie annonces
@@ -140,4 +144,13 @@ class DashboardController extends AbstractController
              'users' => $users,
          ]);
      }
+
+
+     #[Route('/user/{id}', name: 'app_user_show_admin', methods: ['GET'])]
+    public function showUser(User $user): Response
+    {
+        return $this->render('dashboard/user/detail.html.twig', [
+            'user' => $user,
+        ]);
+    }
 }
