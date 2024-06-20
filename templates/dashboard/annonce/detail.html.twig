@@ -1,0 +1,118 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Annonce
+{% endblock %}
+{% block header %}
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0">Annonce</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_dashboard') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">
+							<a href="{{ path('app_annonce_admin') }}">Annonce</a>
+						</li>
+						<li class="breadcrumb-item active">detail</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+
+{% endblock %}
+
+
+{% block body %}
+	<style>
+
+
+		.annonce-prix {
+			font-weight: bold; /* Mettre le texte en gras */
+			color: #2c3e50; /* Couleur du texte */
+			background-color: #ecf0f1; /* Couleur de fond */
+			padding: 10px; /* Espacement interne */
+			border: 1px solid #bdc3c7; /* Bordure */
+			border-radius: 5px; /* Coins arrondis */
+			text-align: left; /* Alignement du texte */
+			font-size: 16px; /* Taille de la police */
+
+		}
+	</style>
+	<div class="container">
+		<div class="card">
+			<div
+				class="row">
+				<!-- Colonne pour l'image de l'annonce -->
+
+				<div class="col-lg-6 d-flex align-items-center justify-content-center">
+					<div class="wow fadeInUp" data-wow-delay="0.5s">
+						{% for image in images %}
+							<img src="{{ asset('uploads/images/' ~ image.image ) }}" class="img-fluid rounded mb-3" alt="Image de l'annonce">
+						{% endfor %}
+
+					</div>
+				</div>
+
+				<!-- Colonne pour les détails de l'annonce -->
+
+				<div class="col-lg-6">
+
+					<table class="table">
+						<tbody>
+							<tr>
+								<th>Nom</th>
+								<td>{{ annonce.nom }}</td>
+							</tr>
+
+							<tr>
+								<th>Date_creation</th>
+								<td>{{ annonce.dateCreation ? annonce.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+							</tr>
+							<tr>
+								<th>Description</th>
+								<td>{{ annonce.description }}</td>
+							</tr>
+							<tr>
+								<th>Message</th>
+								<td>{{ annonce.message }}</td>
+							</tr>
+							<tr>
+								<th>Date_debut</th>
+								<td>{{ annonce.dateDebut ? annonce.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+							</tr>
+							<tr>
+								<th>Date_fin</th>
+								<td>{{ annonce.dateFin ? annonce.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+							</tr>
+							<tr>
+								<th>Prix</th>
+								<td class="annonce-prix">{{ annonce.prix }}</td>
+							</tr>
+							<tr>
+								<th>Etat</th>
+								<td>{{ annonce.etat }}</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<a href="{{ path('app_annonce_admin') }}" class="btn btn-primary">Back to list</a>
+
+					{{ include('annonce/_delete_form.html.twig') }}
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

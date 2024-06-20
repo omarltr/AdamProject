@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Annonce;
 use App\Entity\Categorie;
 use App\Entity\Equipements;
 use App\Entity\Reclamation;
+use App\Entity\User;
 use App\Form\CategorieType;
 use App\Form\EquipementsType;
 use App\Repository\AnnonceRepository;
 use App\Repository\EquipementsRepository;
 use App\Repository\ReclamationRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,11 +62,20 @@ class DashboardController extends AbstractController
 
     //partie annonces
 
-    #[Route('/annonce', name: 'app_annonce', methods: ['GET'])]
+    #[Route('/annonce', name: 'app_annonce_admin', methods: ['GET'])]
     public function listAnnonce(AnnonceRepository $annonceRepository): Response
     {
         return $this->render('dashboard/annonce/index.html.twig', [
             'annonces' => $annonceRepository->findAll(),
+        ]);
+    }
+    #[Route('/annonce/{id}', name: 'app_annonce_show_admin', methods: ['GET'])]
+    public function showAnnonce(Annonce $annonce): Response
+    {
+        $images = $annonce->getImages();
+        return $this->render('dashboard/annonce/detail.html.twig', [
+            'annonce' => $annonce,
+            'images' => $images
         ]);
     }
      
@@ -107,6 +119,25 @@ class DashboardController extends AbstractController
          return $this->renderForm('dashboard/categorie/new.html.twig', [
              'categorie' => $categorie,
              'form' => $form,
+         ]);
+     }
+
+     // partie users 
+
+     #[Route('/users', name: 'app_users_index_admin', methods: ['GET'])]
+     public function userindex(Request $request, UserRepository $userRepository): Response
+     {
+         $search = $request->query->get('search', '');
+         $users = $userRepository->findBySearchTerm($search);
+ 
+         if ($request->isXmlHttpRequest()) {
+             return $this->render('dashboard/user/_user_list.html.twig', [
+                 'users' => $users,
+             ]);
+         }
+ 
+         return $this->render('dashboard/user/index.html.twig', [
+             'users' => $users,
          ]);
      }
 }
