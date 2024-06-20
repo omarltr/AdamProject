@@ -21,7 +21,7 @@ class ReclamationController extends AbstractController
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
-        
+        $reclamation->setUser($this->getUser());        
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($reclamation);
