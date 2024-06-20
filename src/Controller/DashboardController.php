@@ -26,8 +26,6 @@ class DashboardController extends AbstractController
     #[Route('', name: 'app_dashboard')]
     public function index(AnnonceRepository $annonceRepository, UserRepository $userRepository): Response
     {
-        
-
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'users' => $userRepository->findAll(),
