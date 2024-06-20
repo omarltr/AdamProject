@@ -39,6 +39,30 @@ class AnnonceController extends AbstractController
 
         ]);
     }
+    #[Route ('/search', name: 'app_annonce_search', methods: ['GET'])]
+    public function search(Request $request, AnnonceRepository $annonceRepository , EntityManagerInterface $em): Response
+    {
+        $Annonces= $annonceRepository->findBy(['nom' => $request->query->get('motcle')]);
+        $repository = $em->getRepository(Categorie::class);
+        $Categories = $repository->findAll();
+
+        $Images = [];
+        foreach ($Annonces as $annonce) {
+            $image = $em->getRepository(Images::class)->findOneBy(['annonce' => $annonce->getId(), 'is_principal' => true]);
+            if ($image) {
+                $Images[$annonce->getId()] = $image;
+            }
+        }
+        
+        return $this->render('annonce/index.html.twig', [
+            'Annonces' => $Annonces,
+            'Images' => $Images,
+            'Categories' => $Categories
+
+        ]);
+    }
+
+
     #[Route('/categorie/{id}', name: 'app_annonce_categorie', methods: ['GET'])]
     public function categorie(AnnonceRepository $annonceRepository , EntityManagerInterface $em, Categorie $categorie): Response
     {
@@ -65,6 +89,9 @@ class AnnonceController extends AbstractController
     #[Route('/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
@@ -95,6 +122,7 @@ class AnnonceController extends AbstractController
     #[Route('/{id}/edit', name: 'app_annonce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annonce $annonce, EntityManagerInterface $entityManager): Response
     {
+        
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
 

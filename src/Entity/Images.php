@@ -22,7 +22,9 @@ class Images
     #[ORM\Column(length: 255)]
     private ?string $alt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\ManyToOne(inversedBy: 'images' )]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+
     private ?Annonce $annonce = null;
 
     public function getId(): ?int

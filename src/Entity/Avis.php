@@ -23,10 +23,14 @@ class Avis
     #[ORM\Column(length: 255)]
     private ?string $commentaire = null;
 
-    #[ORM\ManyToOne(inversedBy: 'avis')]
+    #[ORM\ManyToOne(inversedBy: 'avis' )]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+
     private ?Annonce $annonce = null;
 
     #[ORM\ManyToOne(inversedBy: 'avis')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+
     private ?User $user = null;
 
     public function getId(): ?int

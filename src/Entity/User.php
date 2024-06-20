@@ -54,19 +54,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $avis;
 
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $reservation;
 
-    #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $reclamation;
 
-    #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $annonce;
 
-    #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $paiement;
 
     #[ORM\Column(length: 255, nullable: true)]

@@ -38,23 +38,24 @@ class Annonce
     #[ORM\Column]
     private ?float $prix = null;
 
-    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'annonce')]
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'annonce', cascade: ['persist', 'remove'])]
     private Collection $avis;
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
     private ?Categorie $categorie = null;
 
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(type: Types::SMALLINT )]
     private ?int $etat = null;
 
-    #[ORM\OneToMany(targetEntity: Images::class, mappedBy: 'annonce')]
+    #[ORM\OneToMany(targetEntity: Images::class, mappedBy: 'annonce', cascade: ['persist', 'remove'])]
     private Collection $images;
 
     #[ORM\ManyToMany(targetEntity: Equipements::class, mappedBy: 'annonce')]
     private Collection $equipements;
 
     #[ORM\ManyToOne(inversedBy: 'annonce')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?User $user = null;
 
     #[ORM\OneToOne(mappedBy: 'annonce', cascade: ['persist', 'remove'])]
