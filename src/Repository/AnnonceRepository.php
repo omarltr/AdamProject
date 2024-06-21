@@ -6,6 +6,7 @@ use App\Entity\Annonce;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @extends ServiceEntityRepository<Annonce>
  *
@@ -20,7 +21,18 @@ class AnnonceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Annonce::class);
     }
-
+    public function findMonthlyCounts(): array
+{
+    $qb = $this->createQueryBuilder('c');
+    
+    $qb->select("DATE_FORMAT(a.date_creation, '%Y-%m') AS moisAnnonce")
+       ->addSelect('COUNT(a.id) as nombreAnnonces')
+       ->leftJoin('c.annonces', 'a')
+       ->groupBy('moisAnnonce')
+       ->orderBy('moisAnnonce', 'ASC');
+    
+    return $qb->getQuery()->getResult();
+}
 //    /**
 //     * @return Annonce[] Returns an array of Annonce objects
 //     */

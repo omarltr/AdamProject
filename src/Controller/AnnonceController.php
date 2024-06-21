@@ -36,7 +36,6 @@ class AnnonceController extends AbstractController
             'Annonces' => $Annonces,
             'Images' => $Images,
             'Categories' => $Categories
-
         ]);
     }
     #[Route ('/search', name: 'app_annonce_search', methods: ['GET'])]

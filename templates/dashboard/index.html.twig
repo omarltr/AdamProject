@@ -24,7 +24,7 @@
 					<!-- small box -->
 					<div class="small-box bg-info">
 						<div class="inner">
-							<h3>150</h3>
+							<h3>{{totalAnnonces}}</h3>
 
 							<p>Annonces</p>
 						</div>
@@ -61,10 +61,10 @@
 					<!-- small box -->
 					<div class="small-box bg-warning">
 						<div class="inner">
-							<h3>44</h3>
-
+							<h3>{{ totalUsers }}</h3>
 							<p>User Registrations</p>
 						</div>
+
 						<div class="icon">
 							<i class="ion ion-person-add"></i>
 						</div>
@@ -79,9 +79,9 @@
 					<!-- small box -->
 					<div class="small-box bg-danger">
 						<div class="inner">
-							<h3>65</h3>
+							<h3>{{totalReclamations}}</h3>
 
-							<p>Unique Visitors</p>
+							<p>Reclamations</p>
 						</div>
 						<div class="icon">
 							<i class="ion ion-pie-graph"></i>
@@ -98,19 +98,68 @@
 		<div class="row">
 			<section class="col-lg-7 connectedSortable ui-sortable">
 				<div class="card">
-					<canvas ></canvas>
+					<canvas id="myChart"></canvas>
+
 				</div>
 
 			</section>
 			<section class="col-lg-5 connectedSortable ui-sortable">
-				<div class="card"><canvas ></canvas></div>
+				<div class="card">
+					<canvas id="myChart2"></canvas>
+
+				</div>
+				<div class="card">
+					<canvas id="myChart3"></canvas>
+				</div>
 			</section>
 		</div>
 
 	</section>
 
-	<script>
 
-	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script>
+        // Récupérer les données PHP dans JavaScript
+        var categoriesAvecNombreOccurrences = {{ categoriesAvecNombreOccurrences | json_encode| raw }};
+        
+        // Préparer les labels et les données pour le graphe
+        var labels = categoriesAvecNombreOccurrences.map(function(cat) { return cat.nomCategorie; });
+        var data = categoriesAvecNombreOccurrences.map(function(cat) { return cat.nombreOccurrences; });
+        
+        // Sélectionner le canvas
+        var ctx = document.getElementById('myChart').getContext('2d');
+        
+        // Créer votre graphe
+        var myChart = new Chart(ctx, {
+            type: 'bar', // Type de graphe (bar, line, pie, etc.)
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Occurrences d\'Annonces par Catégorie',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Nombre d\'Occurrences'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Catégorie'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
 {% endblock %}
