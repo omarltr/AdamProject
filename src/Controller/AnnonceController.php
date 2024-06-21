@@ -17,50 +17,6 @@ use App\Entity\Categorie;
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
 {
-    #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
-    public function index(AnnonceRepository $annonceRepository , EntityManagerInterface $em): Response
-    {
-        $Annonces= $annonceRepository->findAll();
-        $repository = $em->getRepository(Categorie::class);
-        $Categories = $repository->findAll();
-
-        $Images = [];
-        foreach ($Annonces as $annonce) {
-            $image = $em->getRepository(Images::class)->findOneBy(['annonce' => $annonce->getId(), 'is_principal' => true]);
-            if ($image) {
-                $Images[$annonce->getId()] = $image;
-            }
-        }
-        
-        return $this->render('annonce/index.html.twig', [
-            'Annonces' => $Annonces,
-            'Images' => $Images,
-            'Categories' => $Categories
-        ]);
-    }
-    #[Route ('/search', name: 'app_annonce_search', methods: ['GET'])]
-    public function search(Request $request, AnnonceRepository $annonceRepository , EntityManagerInterface $em): Response
-    {
-        $Annonces= $annonceRepository->findBy(['nom' => $request->query->get('motcle')]);
-        $repository = $em->getRepository(Categorie::class);
-        $Categories = $repository->findAll();
-
-        $Images = [];
-        foreach ($Annonces as $annonce) {
-            $image = $em->getRepository(Images::class)->findOneBy(['annonce' => $annonce->getId(), 'is_principal' => true]);
-            if ($image) {
-                $Images[$annonce->getId()] = $image;
-            }
-        }
-        
-        return $this->render('annonce/index.html.twig', [
-            'Annonces' => $Annonces,
-            'Images' => $Images,
-            'Categories' => $Categories
-
-        ]);
-    }
-
 
     #[Route('/categorie/{id}', name: 'app_annonce_categorie', methods: ['GET'])]
     public function categorie(AnnonceRepository $annonceRepository , EntityManagerInterface $em, Categorie $categorie): Response
