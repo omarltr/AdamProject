@@ -18,6 +18,7 @@ use App\Entity\Categorie;
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
 {
+
     #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
     public function index(Request $request , AnnonceRepository $annonceRepository , EntityManagerInterface $em): Response
     {
@@ -52,7 +53,6 @@ class AnnonceController extends AbstractController
 
         ]);
     }
-
 
 
     #[Route('/categorie/{id}', name: 'app_annonce_categorie', methods: ['GET'])]

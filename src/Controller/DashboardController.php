@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Form\CategorieType;
 use App\Form\EquipementsType;
 use App\Repository\AnnonceRepository;
+use App\Repository\CategorieRepository;
 use App\Repository\EquipementsRepository;
 use App\Repository\ReclamationRepository;
 use App\Repository\UserRepository;
@@ -23,19 +24,27 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin')]
 class DashboardController extends AbstractController
 {
-    #[Route('', name: 'app_dashboard')]
-    public function index(AnnonceRepository $annonceRepository, UserRepository $userRepository): Response
+
+    #[Route('/', name: 'app_dashboard')]
+    public function index(CategorieRepository $categorieRepository, AnnonceRepository $annonceRepository, UserRepository $userRepository,ReclamationRepository $reclamationRepository): Response
     {
+
+        // Récupérer le nombre total d'utilisateurs
+        $totalUsers = $userRepository->count([]);
+        $totalAnnonces = $annonceRepository->count([]);
+        $totalReclamations = $reclamationRepository->count([]);
+        $categoriesAvecNombreOccurrences = $categorieRepository->findAllWithCount();
+
         return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
-            'users' => $userRepository->findAll(),
-            'annonces' => $annonceRepository->findAll()
+            'totalUsers' => $totalUsers,
+            'totalAnnonces' => $totalAnnonces,
+            'categoriesAvecNombreOccurrences' => $categoriesAvecNombreOccurrences,
+            'totalReclamations' =>$totalReclamations
         ]);
     }
 
-
     // partie reclamation
-    
+
     #[Route('/reclamation', name: 'app_reclamation', methods: ['GET'])]
     public function listReclamation(ReclamationRepository $reclamationRepository): Response
     {
@@ -54,7 +63,7 @@ class DashboardController extends AbstractController
     #[Route('/reclamation/{id}', name: 'app_reclamation_delete', methods: ['POST'])]
     public function delete(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$reclamation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $reclamation->getId(), $request->request->get('_token'))) {
             $entityManager->remove($reclamation);
             $entityManager->flush();
         }
@@ -80,71 +89,71 @@ class DashboardController extends AbstractController
             'images' => $images
         ]);
     }
-     
+
     //partie equipements
 
-     #[Route('/equipements', name: 'app_equipements_new', methods: ['GET', 'POST'])]
-     public function newEquipement(Request $request, EntityManagerInterface $entityManager): Response
-     {
-         $equipement = new Equipements();
-         $form = $this->createForm(EquipementsType::class, $equipement);
-         $form->handleRequest($request);
- 
-         if ($form->isSubmitted() && $form->isValid()) {
-             $entityManager->persist($equipement);
-             $entityManager->flush();
- 
-             return $this->redirectToRoute('app_equipements_index', [], Response::HTTP_SEE_OTHER);
-         }
- 
-         return $this->renderForm('dashboard/equipements/new.html.twig', [
-             'equipement' => $equipement,
-             'form' => $form,
-         ]);
-     }
- 
-     // partie Categories
-     #[Route('/new', name: 'app_categorie_new', methods: ['GET', 'POST'])]
-     public function newCategorie(Request $request, EntityManagerInterface $entityManager): Response
-     {
-         $categorie = new Categorie();
-         $form = $this->createForm(CategorieType::class, $categorie);
-         $form->handleRequest($request);
- 
-         if ($form->isSubmitted() && $form->isValid()) {
-             $entityManager->persist($categorie);
-             $entityManager->flush();
- 
-             return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
-         }
- 
-         return $this->renderForm('dashboard/categorie/new.html.twig', [
-             'categorie' => $categorie,
-             'form' => $form,
-         ]);
-     }
+    #[Route('/equipements', name: 'app_equipements_new', methods: ['GET', 'POST'])]
+    public function newEquipement(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $equipement = new Equipements();
+        $form = $this->createForm(EquipementsType::class, $equipement);
+        $form->handleRequest($request);
 
-     // partie users 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($equipement);
+            $entityManager->flush();
 
-     #[Route('/users', name: 'app_users_index_admin', methods: ['GET'])]
-     public function userindex(Request $request, UserRepository $userRepository): Response
-     {
-         $search = $request->query->get('search', '');
-         $users = $userRepository->findBySearchTerm($search);
- 
-         if ($request->isXmlHttpRequest()) {
-             return $this->render('dashboard/user/_user_list.html.twig', [
-                 'users' => $users,
-             ]);
-         }
- 
-         return $this->render('dashboard/user/index.html.twig', [
-             'users' => $users,
-         ]);
-     }
+            return $this->redirectToRoute('app_equipements_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('dashboard/equipements/new.html.twig', [
+            'equipement' => $equipement,
+            'form' => $form,
+        ]);
+    }
+
+    // partie Categories
+    #[Route('/new', name: 'app_categorie_new', methods: ['GET', 'POST'])]
+    public function newCategorie(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $categorie = new Categorie();
+        $form = $this->createForm(CategorieType::class, $categorie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($categorie);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('dashboard/categorie/new.html.twig', [
+            'categorie' => $categorie,
+            'form' => $form,
+        ]);
+    }
+
+    // partie users 
+
+    #[Route('/users', name: 'app_users_index_admin', methods: ['GET'])]
+    public function userindex(Request $request, UserRepository $userRepository): Response
+    {
+        $search = $request->query->get('search', '');
+        $users = $userRepository->findBySearchTerm($search);
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('dashboard/user/_user_list.html.twig', [
+                'users' => $users,
+            ]);
+        }
+
+        return $this->render('dashboard/user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
 
 
-     #[Route('/user/{id}', name: 'app_user_show_admin', methods: ['GET'])]
+    #[Route('/user/{id}', name: 'app_user_show_admin', methods: ['GET'])]
     public function showUser(User $user): Response
     {
         return $this->render('dashboard/user/detail.html.twig', [

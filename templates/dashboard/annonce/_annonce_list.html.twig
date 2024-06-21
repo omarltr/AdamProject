@@ -3,7 +3,8 @@
 		<tr>
 			<th style="width: 1%">#</th>
 			<th style="width: 20%">Client</th>
-			<th style="width: 30%">Nom de l'annonce</th>
+			<th style="width: 20%">Nom de l'annonce</th>
+			<th style="width: 10%">Image</th>
 			<th style="width: 10%">Date Début</th>
 			<th style="width: 10%">Date Fin</th>
 			<th style="width: 5%">Prix</th>
@@ -25,8 +26,19 @@
 					</ul>
 				</td>
 				<td>{{ annonce.nom }}</td>
-				<td>{{ annonce.dateDebut ? annonce.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
-				<td>{{ annonce.dateFin ? annonce.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+				<td>
+					<ul class="list-inline">
+						<li class="list-inline-item">
+							{% for image in annonce.images %}
+								<img alt="Avatar" class="img-thumbnail" src="{{ asset('uploads/images/' ~ image.image ) }}" style="width: 100px; height: auto;">
+							{% endfor %}
+						</li>
+
+					</ul>
+				</td>
+				<td class="custom-date-cell">{{ annonce.dateDebut ? annonce.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+				<td class="custom-date-cell">{{ annonce.dateFin ? annonce.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+
 				<td style="font-weight: bold;">{{ annonce.prix }}$</td>
 				<td>
 					{% if annonce.etat ==  1 %}
@@ -35,7 +47,7 @@
 						Non Disponible
 					{% endif %}
 				</td>
-                <td class="project-actions text-right">
+				<td class="project-actions text-right">
 					<a class="btn btn-primary btn-sm" href="{{ path('app_annonce_show_admin', {'id': annonce.id}) }}">
 						<i class="fas fa-folder"></i>
 						View
@@ -50,4 +62,14 @@
 			<td colspan="10">no records found</td>
 		</tr>
 	{% endfor %}
+
+	<style>
+
+		.custom-date-cell {
+			font-family: Arial, sans-serif;
+			font-size: 12px;
+			color: #666;
+			/* Autres styles personnalisés */
+		}
+	</style>
 </tbody></table>
