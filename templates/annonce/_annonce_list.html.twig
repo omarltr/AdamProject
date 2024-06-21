@@ -1,0 +1,54 @@
+
+	<!-- Property List Start -->
+	<div class="container-xxl py-5">
+		<div class="container">
+			<div class="tab-content">
+				<div id="tab-1" class="tab-pane fade show p-0 active">
+					<div class="row g-4">
+						{% for annonce in Annonces %}
+							{% set adresse = Adresses[annonce.id] ?? null %}
+							{% set image = Images[annonce.id] ?? null %}
+							<div class="col-lg-4 col-md-6 wow " data-wow-delay="0.1s">
+								<div class="property-item rounded overflow-hidden">
+									<div class="position-relative overflow-hidden">
+										<div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+											{% if annonce.etat == 1 %}
+												Disponible
+											{% elseif annonce.etat == 2 %}
+												N
+											{% elseif annonce.etat == 3 %}
+												Disponible
+											{% else %}
+												Disponible
+											{% endif %}
+										</div>
+										{% if image %}
+											<img src="{{ asset('uploads/images/' ~ image.image) }}" alt="{{image.alt}}" class="img-fluid">
+										{% endif %}
+										<div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ annonce.categorie }}</div>
+									</div>
+									<div class="p-4 pb-0">
+										<h5 class="text-primary mb-3">€{{ annonce.prix }}</h5>
+										<a class="d-block h5 mb-2" href="#">{{ annonce.nom }}</a>
+										{% if adresse %}
+											<p>
+												<i class="fa fa-map-marker-alt text-primary me-2"></i>
+												{{ adresse.rue }}
+												{{adresse.codepostal}},{{adresse.ville}},{{adresse.pays}}
+												({{adresse.complement}})</p>
+										{% endif %}
+									</div>
+									<div class="d-flex border-top">
+										<small class="flex-fill text-center border-end py-2">
+											<i class="fa fa-calendar text-primary me-2"></i>Dispo a partir de
+											{{ annonce.DateDebut|date('d-m-Y') }}</small>
+										<small class="flex-fill text-center border-end py-2">
+											<i class="fa fa-bed text-primary me-2"></i>
+											{{ annonce.capacite }}</small>
+									</div>
+
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+            	<!-- Category End -->
