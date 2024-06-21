@@ -14,9 +14,46 @@ use App\Entity\Images;
 use App\Entity\Categorie;
 
 
+
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
 {
+
+    #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
+    public function index(Request $request , AnnonceRepository $annonceRepository , EntityManagerInterface $em): Response
+    {
+
+        
+        $search = $request->query->get('search', '');
+        $Annonces= $annonceRepository->findBySearchTerm($search);
+        $repository = $em->getRepository(Categorie::class);
+        $Categories = $repository->findAll();
+
+
+
+
+        $Images = [];
+        foreach ($Annonces as $annonce) {
+            $image = $em->getRepository(Images::class)->findOneBy(['annonce' => $annonce->getId(), 'is_principal' => true]);
+            if ($image) {
+                $Images[$annonce->getId()] = $image;
+            }
+        }
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('annonce/_annonce_list.html.twig', [
+                'Annonces' => $Annonces,
+                'Images' => $Images,
+                'Categories' => $Categories
+            ]);
+        }
+        return $this->render('annonce/index.html.twig', [
+            'Annonces' => $Annonces,
+            'Images' => $Images,
+            'Categories' => $Categories
+
+        ]);
+    }
+
 
     #[Route('/categorie/{id}', name: 'app_annonce_categorie', methods: ['GET'])]
     public function categorie(AnnonceRepository $annonceRepository , EntityManagerInterface $em, Categorie $categorie): Response
@@ -47,6 +84,7 @@ class AnnonceController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
+
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
