@@ -20,7 +20,14 @@ class AnnonceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Annonce::class);
     }
-
+    public function findBySearchTerm($term)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.nom LIKE :term OR u.message LIKE :term OR u.description LIKE :term ')
+            ->setParameter('term', '%' . $term . '%')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Annonce[] Returns an array of Annonce objects
 //     */
