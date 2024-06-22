@@ -60,6 +60,9 @@ namespace App\Controller;
                     $user->setPhoto('default_profile_photo.jpg'); // Change 'default_profile_photo.jpg' to your default image filename
                 }
                 ////////////////
+
+                $user->setRoles(['ROLE_USER']);
+
                 // encode the plain password
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
