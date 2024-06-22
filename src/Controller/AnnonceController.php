@@ -22,15 +22,11 @@ class AnnonceController extends AbstractController
     #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
     public function index(Request $request , AnnonceRepository $annonceRepository , EntityManagerInterface $em): Response
     {
-
         
         $search = $request->query->get('search', '');
         $Annonces= $annonceRepository->findBySearchTerm($search);
         $repository = $em->getRepository(Categorie::class);
         $Categories = $repository->findAll();
-
-
-
 
         $Images = [];
         foreach ($Annonces as $annonce) {
