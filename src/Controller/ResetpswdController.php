@@ -90,6 +90,8 @@ class ResetpswdController extends AbstractController
                     ->html("<p>Click the following link to reset your password: <a href='{$resetUrl}'>Reset Password</a></p>");
 
                 $mailer->send($emailMessage);
+                $this->addFlash('message', 'Votre compte a été récupéré avec succès. Veuillez vérifier votre e-mail pour continuer.');
+
             
             }else{
                 $this->addFlash('danger', 'cette adresse n\'existe pas');
