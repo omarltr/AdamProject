@@ -2,15 +2,16 @@
 
 {% block body %}
 	<!-- Header Start -->
-	
+
 	<div class="container-fluid header bg-white p-0">
 		<div class="row g-0 align-items-center flex-column-reverse flex-md-row">
 			<div class="col-md-6 p-5 mt-lg-5">
-				<h1 class="display-5 animated fadeIn mb-4">Trouver  
+				<h1 class="display-5 animated fadeIn mb-4">Trouver
 					<span class="text-primary">la maison idéale</span>
 					pour vivre avec votre famille</h1>
 				<p class="animated fadeIn mb-4 pb-2">Trouvez la maison idéale pour vivre avec votre famille, un lieu où vous pourrez créer des souvenirs inoubliables.</p>
-				<a href="" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Commencez dès maintenant </a>
+				<a href="" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Commencez dès maintenant
+				</a>
 			</div>
 			<div class="col-md-6 animated fadeIn">
 				<div class="owl-carousel header-carousel">
@@ -25,31 +26,31 @@
 		</div>
 	</div>
 	<!-- Header End -->
-	
+
 	<!-- Category Start -->
 
 	<div class="container-xxl py-5">
-    <div class="container">
-        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-            <h1 class="mb-3">Types de propriétés</h1>
-            <p>Découvrez différents types de propriétés pour trouver celle qui correspond parfaitement à vos besoins.</p>
-        </div>
-        <div class="row g-4">
-            {% for Categorie in Categories %}
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.{{ loop.index }}s">
-                <a class="cat-item d-block bg-light text-center rounded p-3" href="{{ path('app_annonce_categorie', {'id': Categorie.id}) }}">
-                    <div class="rounded p-4">
-                        <div class="icon mb-3">
-                            <img class="img-fluid" src="{{ asset('uploads/categories/' ~ Categorie.icon) }}" alt="Icon">
-                        </div>
-                        <h6>{{ Categorie.nom }}</h6>
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
+		<div class="container">
+			<div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+				<h1 class="mb-3">Types de propriétés</h1>
+				<p>Découvrez différents types de propriétés pour trouver celle qui correspond parfaitement à vos besoins.</p>
+			</div>
+			<div class="row g-4">
+				{% for Categorie in Categories %}
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.{{ loop.index }}s">
+						<a class="cat-item d-block bg-light text-center rounded p-3" href="{{ path('app_annonce_categorie', {'id': Categorie.id}) }}">
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="{{ asset('uploads/categories/' ~ Categorie.icon) }}" alt="Icon">
+								</div>
+								<h6>{{ Categorie.nom }}</h6>
+							</div>
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 	<!-- Category End -->
 
 	<!-- Property List Start -->
@@ -62,147 +63,153 @@
 						<p>Explorez notre sélection variée de listes de propriétés pour trouver celle qui correspond le mieux à vos besoins et préférences.</p>
 					</div>
 				</div>
-				
+
 			</div>
 			<div class="tab-content">
 				<div id="tab-1" class="tab-pane fade show p-0 active">
 					<div class="row g-4">
-        {% for annonce in Annonces %}
-            {% set adresse = Adresses[annonce.id] ?? null %}
-            {% set image = Images[annonce.id] ?? null %}
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="property-item rounded overflow-hidden">
-                    <div class="position-relative overflow-hidden">
-                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-						{% if annonce.etat == 1 %}
-							Disponible
-						{% elseif annonce.etat == 2 %}
-							N
-						{% elseif annonce.etat == 3 %}
-							Disponible
-						{% else %}
-							Disponible
-						{% endif %}
-						</div>
-					{% if image %}
-						<img src="{{ asset('uploads/images/' ~ image.image) }}" alt="{{image.alt}}" class="img-fluid">
-                    {% endif %}
-                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ annonce.categorie }}</div>
-                    </div>
-                    <div class="p-4 pb-0">
-                        <h5 class="text-primary mb-3">€{{ annonce.prix }}</h5>
-                        <a class="d-block h5 mb-2" href="#">{{ annonce.nom }}</a>
-                        {% if adresse %}
-                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ adresse.rue }} {{adresse.codepostal}},{{adresse.ville}},{{adresse.pays}} ({{adresse.complement}})</p>
-                        {% endif %}
-                    </div>
-                    <div class="d-flex border-top">
-                        <small class="flex-fill text-center border-end py-2">
-                            <i class="fa fa-calendar text-primary me-2"></i>Dispo a partir de {{ annonce.DateDebut|date('d-m-Y') }}</small>
-                        <small class="flex-fill text-center border-end py-2">
-                            <i class="fa fa-bed text-primary me-2"></i>{{ annonce.capacite }}</small>
-                    </div>
+						{% for annonce in Annonces %}
+							{% set adresse = Adresses[annonce.id] ?? null %}
+							{% set image = Images[annonce.id] ?? null %}
+							<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+								<div class="property-item rounded overflow-hidden">
+									<div class="position-relative overflow-hidden">
+										<div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+											{% if annonce.etat == 1 %}
+												Disponible
+											{% elseif annonce.etat == 2 %}
+												N
+											{% elseif annonce.etat == 3 %}
+												Disponible
+											{% else %}
+												Disponible
+											{% endif %}
+										</div>
+										{% if image %}
+											<img src="{{ asset('uploads/images/' ~ image.image) }}" alt="{{image.alt}}" class="img-fluid">
+										{% endif %}
+										<div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ annonce.categorie }}</div>
+									</div>
+									<div class="p-4 pb-0">
+										<h5 class="text-primary mb-3">€{{ annonce.prix }}</h5>
+										<a class="d-block h5 mb-2" href="#">{{ annonce.nom }}</a>
+										{% if adresse %}
+											<p>
+												<i class="fa fa-map-marker-alt text-primary me-2"></i>
+												{{ adresse.rue }}
+												{{adresse.codepostal}},{{adresse.ville}},{{adresse.pays}}
+												({{adresse.complement}})</p>
+										{% endif %}
+									</div>
+									<div class="d-flex border-top">
+										<small class="flex-fill text-center border-end py-2">
+											<i class="fa fa-calendar text-primary me-2"></i>Dispo a partir de
+											{{ annonce.DateDebut|date('d-m-Y') }}</small>
+										<small class="flex-fill text-center border-end py-2">
+											<i class="fa fa-bed text-primary me-2"></i>
+											{{ annonce.capacite }}</small>
+									</div>
 
-                </div>
-            </div>
-        {% endfor %}
-						</div>
-						<div class="col-12 text-center">
-							<a class="btn btn-primary py-3 px-5" href="">Parcourez plus</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Property List End -->
-	<!-- About Start -->
-	<div class="container-xxl py-5">
-		<div class="container">
-			<div class="row g-5 align-items-center">
-				<div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-					<div class="about-img position-relative overflow-hidden p-5 pe-0">
-						<img class="img-fluid w-100" src="img/about.jpg">
-					</div>
-				</div>
-				<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-					<h1 class="mb-4">#1 Endroit pour Trouver la Propriété Parfaite</h1>
-					<p class="mb-4">Découvrez une sélection de propriétés adaptées à vos besoins spécifiques.</p>
-					<p>
-						<i class="fa fa-check text-primary me-3"></i>Trouvez la maison idéale pour vous et votre famille</p>
-					<p>
-						<i class="fa fa-check text-primary me-3"></i>Découvrez des options variées pour votre futur domicile</p>
-					<p>
-						<i class="fa fa-check text-primary me-3"></i>Trouvez la propriété parfaite qui correspond à vos attentes</p>
-					<a class="btn btn-primary py-3 px-5 mt-3" href="{{ path('app_annonce_index')}}">Explorez !</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- About End -->
-
-	<!-- Call to Action Start -->
-	<div class="container-xxl py-5">
-		<div class="container">
-			<div class="bg-light rounded p-3">
-				<div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
-					<div class="row g-5 align-items-center">
-						<div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-							<img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
-						</div>
-						<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-							<div class="mb-4">
-								<h1 class="mb-3">Contactez notre agent certifié</h1>
-								<p>Prenez contact avec notre agent certifié pour obtenir plus d'informations.</p>
+								</div>
 							</div>
-						
-							<a href="" class="btn btn-dark py-3 px-4">
-								<i class="fa fa-envelope me-2"></i>Contactez nous !</a>
-						</div>
+						{% endfor %}
+					</div>
+					<div class="col-12 text-center">
+						<a class="btn btn-primary py-3 px-5" href="">Parcourez plus</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Call to Action End -->
-
-
-	<!-- Testimonial Start -->
-	<div class="container-xxl py-5">
-		<div class="container">
-			<div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-				<h1 class="mb-3">Ce que disent nos clients !</h1>
-				<p>Les témoignages et retours de nos clients nous aident à améliorer nos services et à mieux répondre à vos besoins.</p>
+</div>
+<!-- Property List End -->
+<!-- About Start -->
+<div class="container-xxl py-5">
+	<div class="container">
+		<div class="row g-5 align-items-center">
+			<div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+				<div class="about-img position-relative overflow-hidden p-5 pe-0">
+					<img class="img-fluid w-100" src="img/about.jpg">
+				</div>
 			</div>
-			<div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
-{% for avis in Avis %}
-    <div class="testimonial-item bg-light rounded p-3">
-        <div class="bg-white border rounded p-4">
-            <p>{{ avis.commentaire }}</p> <h5 class="card-title">
-        {% for i in range(1, 5) %}
-            {% if i <= avis.note %}
-                <i class="fas fa-star text-warning"></i>
-            {% else %}
-                <i class="far fa-star text-warning"></i>
-            {% endif %}
-        {% endfor %}
-    </h5>
-            <div class="d-flex align-items-center">
-                {% set user = avis.user %}
-				<img class="img-fluid flex-shrink-0 rounded" src="{{ asset('/uploads/Profilephoto/' ~ user.photo) }}" style="width: 45px; height: 45px;">
-                <div class="ps-3">
-                    <h6 class="fw-bold mb-1">{{ user.nom }} {{ user.prenom }}</h6>
-                    <small>Publié le : {{ avis.date|date('Y-m-d H:i:s') }}</small>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endfor %}
-
+			<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+				<h1 class="mb-4">#1 Endroit pour Trouver la Propriété Parfaite</h1>
+				<p class="mb-4">Découvrez une sélection de propriétés adaptées à vos besoins spécifiques.</p>
+				<p>
+					<i class="fa fa-check text-primary me-3"></i>Trouvez la maison idéale pour vous et votre famille</p>
+				<p>
+					<i class="fa fa-check text-primary me-3"></i>Découvrez des options variées pour votre futur domicile</p>
+				<p>
+					<i class="fa fa-check text-primary me-3"></i>Trouvez la propriété parfaite qui correspond à vos attentes</p>
+				<a class="btn btn-primary py-3 px-5 mt-3" href="{{ path('app_annonce_index')}}">Explorez !</a>
 			</div>
 		</div>
 	</div>
-	<!-- Testimonial End -->
+</div>
+<!-- About End -->
+
+<!-- Call to Action Start -->
+<div class="container-xxl py-5">
+	<div class="container">
+		<div class="bg-light rounded p-3">
+			<div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
+				<div class="row g-5 align-items-center">
+					<div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+						<img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
+					</div>
+					<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+						<div class="mb-4">
+							<h1 class="mb-3">Contactez notre agent certifié</h1>
+							<p>Prenez contact avec notre agent certifié pour obtenir plus d'informations.</p>
+						</div>
+
+						<a href="" class="btn btn-dark py-3 px-4">
+							<i class="fa fa-envelope me-2"></i>Contactez nous !</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Call to Action End -->
 
 
-{% endblock %}
+<!-- Testimonial Start -->
+<div class="container-xxl py-5">
+	<div class="container">
+		<div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+			<h1 class="mb-3">Ce que disent nos clients !</h1>
+			<p>Les témoignages et retours de nos clients nous aident à améliorer nos services et à mieux répondre à vos besoins.</p>
+		</div>
+		<div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+			{% for avis in Avis %}
+				<div class="testimonial-item bg-light rounded p-3">
+					<div class="bg-white border rounded p-4">
+						<p>{{ avis.commentaire }}</p>
+						<h5 class="card-title">
+							{% for i in range(1, 5) %}
+								{% if i <= avis.note %}
+									<i class="fas fa-star text-warning"></i>
+								{% else %}
+									<i class="far fa-star text-warning"></i>
+								{% endif %}
+							{% endfor %}
+						</h5>
+						<div class="d-flex align-items-center">
+							{% set user = avis.user %}
+							<img class="img-fluid flex-shrink-0 rounded" src="{{ asset('/uploads/Profilephoto/' ~ user.photo) }}" style="width: 45px; height: 45px;">
+							<div class="ps-3">
+								<h6 class="fw-bold mb-1">{{ user.nom }}
+									{{ user.prenom }}</h6>
+								<small>Publié le :
+									{{ avis.date|date('Y-m-d H:i:s') }}</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+
+		</div>
+	</div>
+</div>
+<!-- Testimonial End -->{% endblock %}

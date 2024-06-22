@@ -44,6 +44,17 @@ class AnnonceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByUser($value): array
+   {
+       return $this->createQueryBuilder('a')
+           ->andWhere('a.user = :val')
+           ->setParameter('val', $value)
+           ->orderBy('a.date_creation', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    /**
 //     * @return Annonce[] Returns an array of Annonce objects
 //     */
