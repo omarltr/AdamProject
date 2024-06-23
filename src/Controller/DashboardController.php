@@ -103,7 +103,7 @@ class DashboardController extends AbstractController
 
     //partie equipements
 
-    #[Route('/equipements', name: 'app_equipements_new', methods: ['GET', 'POST'])]
+    #[Route('/equipements', name: 'app_equipements_new_admin', methods: ['GET', 'POST'])]
     public function newEquipement(Request $request, EntityManagerInterface $entityManager): Response
     {
         $equipement = new Equipements();

@@ -25,8 +25,6 @@ class Equipements
 
     private Collection $annonce;
 
-
-
     public function getId(): ?int
     {
         return $this->id;
