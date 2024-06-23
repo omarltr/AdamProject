@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Annonce;
 use App\Entity\Equipements;
 use App\Form\EquipementsType;
 use App\Repository\EquipementsRepository;
@@ -29,7 +30,7 @@ class EquipementsController extends AbstractController
             'equipement' => $equipement,
         ]);
     }
-
+ 
     #[Route('/{id}/edit', name: 'app_equipements_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Equipements $equipement, EntityManagerInterface $entityManager): Response
     {
@@ -51,7 +52,7 @@ class EquipementsController extends AbstractController
     #[Route('/{id}', name: 'app_equipements_delete', methods: ['POST'])]
     public function delete(Request $request, Equipements $equipement, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$equipement->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $equipement->getId(), $request->request->get('_token'))) {
             $entityManager->remove($equipement);
             $entityManager->flush();
         }

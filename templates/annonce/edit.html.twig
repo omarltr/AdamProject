@@ -1,33 +1,106 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonce
+{% block title %}Edit Annonce
 {% endblock %}
 
 {% block body %}
-	<div class="container-xxl py-5">
-		<div class="container">
-			<div class="bg-light rounded p-3">
-				<div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
-					<div class="row g-5 align-items-center">
-						<div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeIn;">
-							{% for image in annonce.images %}
-								<img src="{{ asset('uploads/images/' ~ image.image) }}" class="img-fluid rounded w-100" alt="Image de l'annonce" class="img-fluid mb-3">
-							{% endfor %}
-						</div>
-						<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeIn;">
-							<div class="mb-4">
-								<h1 class="mb-3">Contact With Our Certified Agent</h1>
-								<p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
+	<div class="container-xxl bg-white p-0">
+		<div class="container-xxl py-5">
+			<div class="container">
+				<nav aria-label="breadcrumb" class="animated fadeIn">
+					<ol class="breadcrumb text-uppercase">
+						<li class="breadcrumb-item">
+							<a href="#">Home</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_profil') }}">Profil</a>
+						</li>
+						<li class="breadcrumb-item text-body active" aria-current="page">Annonce</li>
+					</ol>
+				</nav>
+				<div class="d-flex justify-content-center align-items-center vh-100">
+					<div class="bg-light rounded p-3 w-100" style="max-width: 600px;">
+						<div class="card border-0">
+							<div class="card-body">
+								<h1 class="text-center mb-4">Edit Annonce</h1>
+
+								{{ form_start(form) }}
+								<div class="row g-3">
+									<div class="col-md-6">
+										<div class="form-floating">
+											{{ form_widget(form.nom, {'attr': {'class': 'form-control', 'id': 'nom'}}) }}
+											{{ form_label(form.nom, 'Nom', {'label_attr': {'for': 'nom'}}) }}
+											{{ form_errors(form.nom) }}
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-floating">
+											{{ form_widget(form.categorie, {'attr': {'class': 'form-control', 'id': 'categorie'}}) }}
+											{{ form_label(form.categorie, 'Categorie', {'label_attr': {'for': 'categorie'}}) }}
+											{{ form_errors(form.categorie) }}
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-floating">
+											{{ form_widget(form.date_debut, {'attr': {'class': 'form-control', 'id': 'date_debut'}}) }}
+											{{ form_label(form.date_debut, 'Date de Début', {'label_attr': {'for': 'date_debut'}}) }}
+											{{ form_errors(form.date_debut) }}
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-floating">
+											{{ form_widget(form.date_fin, {'attr': {'class': 'form-control', 'id': 'date_fin'}}) }}
+											{{ form_label(form.date_fin, 'Date de Fin', {'label_attr': {'for': 'date_fin'}}) }}
+											{{ form_errors(form.date_fin) }}
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-floating">
+											{{ form_widget(form.prix, {'attr': {'class': 'form-control', 'id': 'prix'}}) }}
+											{{ form_label(form.prix, 'Prix', {'label_attr': {'for': 'prix'}}) }}
+											{{ form_errors(form.prix) }}
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-floating">
+											{{ form_widget(form.capacite, {'attr': {'class': 'form-control', 'id': 'capacite'}}) }}
+											{{ form_label(form.capacite, 'Capacité', {'label_attr': {'for': 'capacite'}}) }}
+											{{ form_errors(form.capacite) }}
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-floating">
+											{{ form_widget(form.description, {'attr': {'class': 'form-control', 'id': 'description', 'style': 'height: 150px'}}) }}
+											{{ form_label(form.description, 'Description', {'label_attr': {'for': 'description'}}) }}
+											{{ form_errors(form.description) }}
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-floating">
+											{{ form_widget(form.message, {'attr': {'class': 'form-control', 'id': 'message', 'style': 'height: 150px'}}) }}
+											{{ form_label(form.message, 'Message', {'label_attr': {'for': 'message'}}) }}
+											{{ form_errors(form.message) }}
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-floating">
+											{{ form_widget(form.equipements, {'attr': {'class': 'form-control', 'id': 'equipements'}}) }}
+											{{ form_label(form.equipements, 'Équipements', {'label_attr': {'for': 'equipements'}}) }}
+											{{ form_errors(form.equipements) }}
+										</div>
+									</div>
+
+									<div class="col-12">
+										<button class="btn btn-primary w-100 py-3" type="submit">Update</button>
+									</div>
+								</div>
+								{{ form_end(form) }}
+
 							</div>
-							<a href="" class="btn btn-primary py-3 px-4 me-2">
-								<i class="fa fa-phone-alt me-2"></i>Make A Call</a>
-							<a href="" class="btn btn-dark py-3 px-4">
-								<i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 {% endblock %}
