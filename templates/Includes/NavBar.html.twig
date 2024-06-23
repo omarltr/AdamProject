@@ -1,60 +1,56 @@
-
-
-
-	<nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
-		<a href="{{ path('app_home') }}" class="navbar-brand d-flex align-items-center text-center">
-			<div>
-				<img class="img-fluid" src="{{ asset('images/Logo.png')}}" alt="Icon" style="width: 250px; height: 90px;">
-			</div>
-		</a>
-		<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarCollapse">
-			<div class="navbar-nav ms-auto">
-				<a href="{{ path('app_home') }}" class="nav-item nav-link active">Accueil</a>
-				<a href="{{ path('app_home') }}" class="nav-item nav-link">A propos</a>
-				<a href="{{ path('app_annonce_index') }}" class="nav-item nav-link">Logement</a>
-				<a href="{{ path('app_home') }}" class="nav-item nav-link">Services</a>
-
-				{% if app.user %}
-					<a href="{{ path('app_reclamation_new') }}" class="nav-item nav-link">Contact</a>
-				</div>
-				<div class="nav-item dropdown">
-					<a href="#" class="nav-item nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<img src="{{ asset('uploads/Profilephoto/' ~ app.user.photo) }}" alt="Photo de profil" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-					</a>
-					<ul class="dropdown-menu dropdown-menu-end rounded-0" aria-labelledby="navbarDropdown">
-						<li>
-							<a href="{{ path('app_profil') }}" class="dropdown-item">
-								<i class="fas fa-user me-2"></i>
-								Mon Profil
-							</a>
-						</li>
-						<li>
-							<a href="{{ path('app_profil') }}" class="dropdown-item">
-								<i class="fas fa-cog me-2"></i>
-								Paramètres
-							</a>
-						</li>
-
-						<li><hr class="dropdown-divider"></li>
-						<li>
-							<a href="{{ path('app_logout') }}" class="dropdown-item text-danger">
-								<i class="fas fa-sign-out-alt me-2"></i>
-								Déconnexion
-							</a>
-						</li>
-					</ul>
-				</div>
-
-
-			{% else %}
-				<a href="{{ path('app_login') }}" class="nav-item nav-link">Connexion</a>
-				<a href="{{ path('app_register') }}" class="nav-item nav-link">Inscription</a>
-			{% endif %}
+<nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
+	<a href="{{ path('app_home') }}" class="navbar-brand d-flex align-items-center text-center">
+		<div>
+			<img class="img-fluid" src="{{ asset('images/Logo.png')}}" alt="Icon" style="width: 250px; height: 90px;">
 		</div>
-		<a href="{{ path('app_annonce_new') }}" class="btn btn-primary px-3 d-none d-lg-flex">Publier un logement</a>
+	</a>
+	<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarCollapse">
+		<div class="navbar-nav ms-auto">
+			<a href="{{ path('app_home') }}" class="nav-item nav-link active">Accueil</a>
 
+			<a href="{{ path('app_annonce_index') }}" class="nav-item nav-link">Logement</a>
+
+
+			{% if app.user %}
+				<a href="{{ path('app_reclamation_new') }}" class="nav-item nav-link">Contact</a>
+			</div>
+			<div class="nav-item dropdown">
+				<a href="#" class="nav-item nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<img src="{{ asset('uploads/Profilephoto/' ~ app.user.photo) }}" alt="Photo de profil" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+				</a>
+				<ul class="dropdown-menu dropdown-menu-end rounded-0" aria-labelledby="navbarDropdown">
+					<li>
+						<a href="{{ path('app_profil') }}" class="dropdown-item">
+							<i class="fas fa-user me-2"></i>
+							Mon Profil
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('app_profil') }}" class="dropdown-item">
+							<i class="fas fa-cog me-2"></i>
+							Paramètres
+						</a>
+					</li>
+
+					<li><hr class="dropdown-divider"></li>
+					<li>
+						<a href="{{ path('app_logout') }}" class="dropdown-item text-danger">
+							<i class="fas fa-sign-out-alt me-2"></i>
+							Déconnexion
+						</a>
+					</li>
+				</ul>
+			</div>
+
+
+		{% else %}
+			<a href="{{ path('app_login') }}" class="nav-item nav-link">Connexion</a>
+			<a href="{{ path('app_register') }}" class="nav-item nav-link">Inscription</a>
+		{% endif %}
 	</div>
-</nav>
+	<a href="{{ path('app_annonce_new') }}" class="btn btn-primary px-3 d-none d-lg-flex">Publier un logement</a>
+
+</div></nav>

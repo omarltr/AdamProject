@@ -10,7 +10,7 @@
 					<span class="text-primary">la maison idéale</span>
 					pour vivre avec votre famille</h1>
 				<p class="animated fadeIn mb-4 pb-2">Trouvez la maison idéale pour vivre avec votre famille, un lieu où vous pourrez créer des souvenirs inoubliables.</p>
-				<a href="" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Commencez dès maintenant
+				<a href="{{ path('app_profil') }}" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Commencez dès maintenant
 				</a>
 			</div>
 			<div class="col-md-6 animated fadeIn">
@@ -115,7 +115,7 @@
 						{% endfor %}
 					</div>
 					<div class="col-12 text-center">
-						<a class="btn btn-primary py-3 px-5" href="">Parcourez plus</a>
+						<a class="btn btn-primary py-3 px-5" href="{{ path('app_annonce_index') }}">Parcourez plus</a>
 					</div>
 				</div>
 			</div>
@@ -163,8 +163,8 @@
 							<p>Prenez contact avec notre agent certifié pour obtenir plus d'informations.</p>
 						</div>
 
-						<a href="" class="btn btn-dark py-3 px-4">
-							<i class="fa fa-envelope me-2"></i>Contactez nous !</a>
+						<a href="{{ path('app_reclamation_new') }}" class="btn btn-dark py-3 px-4">
+							<i class="fa fa-envelope me-2" ></i>Contactez nous !</a>
 					</div>
 				</div>
 			</div>
