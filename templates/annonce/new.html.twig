@@ -4,22 +4,23 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		
-		<div class="row mt-3">
-			<div class="col-md-6">
-				<div class="wow fadeInUp" data-wow-delay="0.5s">
+	<div class="container-xxl bg-white">
+
+		<div class="container-xxl py-5">
+			<div class="container">
+            <div class="bg-light rounded p-3" style="max-width: 600px; margin: auto; padding: 20px;">
+
+
 					<h1>Créer une nouvelle Annonce</h1>
 					{% include "annonce/_form.html.twig" %}
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-});
+		document.addEventListener('DOMContentLoaded', function () {});
 	</script>
 
 {% endblock %}

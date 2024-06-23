@@ -13,15 +13,32 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Email;
+
+use Symfony\Component\Validator\Constraints\Regex;
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('nom')
-            ->add('n_telephone')
-            ->add('prenom')
+        ->add('email', null, [
+            'constraints' => [
+                new Email(['message' => 'The email "{{ value }}" is not a valid email.']),
+            ],
+        ])            ->add('nom')
+            ->add('n_telephone', null, [
+                'constraints' => [
+                    new Length([
+                        'min' => 8,
+                        'minMessage' => 'The phone number should be at least {{ limit }} characters long.',
+                        // You can add 'max' constraint if needed
+                    ]),
+                    new Regex([
+                        'pattern' => '/^\d{8,}$/',
+                        'message' => 'The phone number should contain only digits and be at least 8 characters long.',
+                    ]),
+                ],
+            ])            ->add('prenom')
             ->add('date_de_naissance', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => false, 
@@ -30,38 +47,40 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control custom-date', 
                     'placeholder' => 'JJ/MM/AAAA', 
                 ],
-            ])       
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ])
-            ->add('photo', FileType::class, [
+            ])       ;
+
+            if ($options['include_terms']) {
+                $builder->add('agreeTerms', CheckboxType::class, [
+                    'mapped' => false,
+                    'constraints' => [
+                        new IsTrue([
+                            'message' => 'You should agree to our terms.',
+                        ]),
+                    ],
+                ]);
+            }
+        
+            $builder->add('photo', FileType::class, [
                 'label' => 'Profile Picture',
-                'mapped' => false, // This tells Symfony not to associate this field with any entity property
-                'required' => false,
-            ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
-            ])
-        ;
+                'required' => false,
+            ]);
+            if ($options['include_password']) {
+                $builder->add('plainPassword', PasswordType::class, [
+                    'mapped' => false,
+                    'attr' => ['autocomplete' => 'new-password'],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Please enter a password',
+                        ]),
+                        new Length([
+                            'min' => 6,
+                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'max' => 4096,
+                        ]),
+                    ],
+                ]);
+            }
     }
 
     
@@ -69,6 +88,9 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'include_password' => true,
+            'include_terms' => true,
+
         ]);
     }
 }
