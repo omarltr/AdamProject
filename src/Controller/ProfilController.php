@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProfilController extends AbstractController
 {
-    #[Route('/profil', name: 'app_profil')]
+    #[Route('/profil', name: 'app_profil', methods: ['GET', 'POST'])]
     public function index(AnnonceRepository $annonceRepository, Request $request): Response
     {
         if (!$this->getUser()) {
@@ -27,14 +27,14 @@ class ProfilController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user, [
             'include_password' => false,  'include_terms' => false, // Exclude password field for profile editing
         ]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_profil');
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+                return $this->redirectToRoute('app_profil');
+            }
         }
-
         $annonces = $annonceRepository->findByUser($this->getUser());
 
         return $this->render('profil/index.html.twig', [
@@ -42,7 +42,6 @@ class ProfilController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
     #[Route('/reservation', name: 'app_reservation_user')]
     public function reservation(AnnonceRepository $annonceRepository, Request $request, ReservationRepository $reservationRepository): Response
     {
