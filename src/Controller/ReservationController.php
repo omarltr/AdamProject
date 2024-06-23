@@ -62,37 +62,37 @@ class ReservationController extends AbstractController
     public function accepter(int $id, EntityManagerInterface $entityManager): Response
     {
         $annonce = $entityManager->getRepository(Annonce::class)->find($id);
-    
+
         // Vérifie si l'annonce existe
         if (!$annonce) {
             throw $this->createNotFoundException('Annonce non trouvée');
         }
-    
+
         // Changer l'état de l'annonce à "Réservé" (état 3)
         $annonce->setEtat(3);
         $entityManager->flush();
-    
+
         // Redirection vers la page de détails de l'annonce
         return $this->redirectToRoute('app_annonce_show', ['id' => $annonce->getId()], Response::HTTP_SEE_OTHER);
     }
-    
+
     #[Route('/{id}/refuser', name: 'app_reservation_refuser', methods: ['GET', 'POST'])]
     public function refuser(int $id, EntityManagerInterface $entityManager): Response
     {
         $annonce = $entityManager->getRepository(Annonce::class)->find($id);
-    
+
         // Vérifie si l'annonce existe
         if (!$annonce) {
             throw $this->createNotFoundException('Annonce non trouvée');
         }
-    
+
         // Changer l'état de l'annonce à "Annulé" (état 4)
         $annonce->setEtat(4);
         $entityManager->flush();
-    
-      
+
+
         return $this->redirectToRoute('app_annonce_show', ['id' => $annonce->getId()], Response::HTTP_SEE_OTHER);
-}
+    }
 
     #[Route('/{id}', name: 'app_reservation_delete', methods: ['POST'])]
     public function delete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response

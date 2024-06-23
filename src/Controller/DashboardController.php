@@ -37,7 +37,7 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/', name: 'app_dashboard')]
-    public function index(CategorieRepository $categorieRepository, AnnonceRepository $annonceRepository, UserRepository $userRepository,ReclamationRepository $reclamationRepository): Response
+    public function index(CategorieRepository $categorieRepository, AnnonceRepository $annonceRepository, UserRepository $userRepository, ReclamationRepository $reclamationRepository): Response
     {
 
         // Récupérer le nombre total d'utilisateurs
@@ -50,7 +50,7 @@ class DashboardController extends AbstractController
             'totalUsers' => $totalUsers,
             'totalAnnonces' => $totalAnnonces,
             'categoriesAvecNombreOccurrences' => $categoriesAvecNombreOccurrences,
-            'totalReclamations' =>$totalReclamations
+            'totalReclamations' => $totalReclamations
         ]);
     }
 
@@ -146,89 +146,90 @@ class DashboardController extends AbstractController
 
     // partie users 
 
-#[Route('/users', name: 'app_users_index_admin', methods: ['GET', 'POST'])]
-public function userindex(Request $request, UserRepository $userRepository): Response
-{
-    $search = $request->query->get('search', '');
-    $users = $userRepository->findBySearchTerm($search);
-    $form = $this->createForm(AdminaddType::class);
+    #[Route('/users', name: 'app_users_index_admin', methods: ['GET', 'POST'])]
+    public function userindex(Request $request, UserRepository $userRepository): Response
+    {
+        $search = $request->query->get('search', '');
+        $users = $userRepository->findBySearchTerm($search);
+        $form = $this->createForm(AdminaddType::class);
 
-    if ($request->isMethod('POST')) {
-        $form->handleRequest($request);
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $form->getData();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $formData = $form->getData();
 
-           
-            // Create a new User entity
-            $user = new User();
-            $user->setEmail($formData->getEmail());
-       // Hash the password before setting it
-       $hashedPassword = $this->passwordHasher->hashPassword($user, $formData->getPassword());
-       $user->setPassword($hashedPassword);            $user->setPhoto($formData->getPhoto());
-            $user->setNTelephone($formData->getNTelephone());
-            $user->setNom($formData->getNom());
-            $user->setPrenom($formData->getPrenom());
-            $currentDate = new \DateTime();
 
-            $currentDate->format('Y-m-d'); 
-            $user->setDateConnexion($currentDate);
-            $user->setDateInscription($currentDate);
+                // Create a new User entity
+                $user = new User();
+                $user->setEmail($formData->getEmail());
+                // Hash the password before setting it
+                $hashedPassword = $this->passwordHasher->hashPassword($user, $formData->getPassword());
+                $user->setPassword($hashedPassword);
+                $user->setPhoto($formData->getPhoto());
+                $user->setNTelephone($formData->getNTelephone());
+                $user->setNom($formData->getNom());
+                $user->setPrenom($formData->getPrenom());
+                $currentDate = new \DateTime();
 
-            $user->setDateDeNaissance($currentDate);
-            $photoDirectory = 'uploads/Profilephoto';
+                $currentDate->format('Y-m-d');
+                $user->setDateConnexion($currentDate);
+                $user->setDateInscription($currentDate);
 
-            $photoFile = $form->get('photo')->getData();
-            if ($photoFile) {
-                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = uniqid().'.'.$photoFile->guessExtension();
+                $user->setDateDeNaissance($currentDate);
+                $photoDirectory = 'uploads/Profilephoto';
 
-                // Move the file to the directory where profile photos are stored
-                try {
-                    $photoFile->move(
-                        $photoDirectory,
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Handle exception if something happens during file upload
-                    $this->addFlash('danger', 'Failed to upload photo. Please try again.');
-                    return $this->render('registration/register.html.twig', [
-                        'registrationForm' => $form->createView(),
-                    ]);
+                $photoFile = $form->get('photo')->getData();
+                if ($photoFile) {
+                    $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newFilename = uniqid() . '.' . $photoFile->guessExtension();
+
+                    // Move the file to the directory where profile photos are stored
+                    try {
+                        $photoFile->move(
+                            $photoDirectory,
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // Handle exception if something happens during file upload
+                        $this->addFlash('danger', 'Failed to upload photo. Please try again.');
+                        return $this->render('registration/register.html.twig', [
+                            'registrationForm' => $form->createView(),
+                        ]);
+                    }
+
+                    // Update the 'photo' property to store the file name
+                    $user->setPhoto($newFilename);
+                } else {
+                    // If no photo uploaded, set a default image filename
+                    $user->setPhoto('default_profile_photo.jpg'); // Change 'default_profile_photo.jpg' to your default image filename
                 }
+                // Set the role as ROLE_ADMIN in JSON format
+                // Set the role as ROLE_ADMIN directly
+                $user->setRoles(['ROLE_ADMIN']);
 
-                // Update the 'photo' property to store the file name
-                $user->setPhoto($newFilename);
-            }else {
-                // If no photo uploaded, set a default image filename
-                $user->setPhoto('default_profile_photo.jpg'); // Change 'default_profile_photo.jpg' to your default image filename
+                // Persist the user entity
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                // Redirect or return a success response
+                return $this->redirectToRoute('app_users_index_admin');
             }
-            // Set the role as ROLE_ADMIN in JSON format
-           // Set the role as ROLE_ADMIN directly
-$user->setRoles(['ROLE_ADMIN']);
-
-            // Persist the user entity
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // Redirect or return a success response
-            return $this->redirectToRoute('app_users_index_admin');
         }
-    }
 
-    if ($request->isXmlHttpRequest()) {
-        return $this->render('dashboard/user/_user_list.html.twig', [
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('dashboard/user/_user_list.html.twig', [
+                'users' => $users,
+                'form' => $form->createView(),
+            ]);
+        }
+
+        return $this->render('dashboard/user/index.html.twig', [
             'users' => $users,
             'form' => $form->createView(),
         ]);
     }
-
-    return $this->render('dashboard/user/index.html.twig', [
-        'users' => $users,
-        'form' => $form->createView(),
-    ]);
-}
 
     #[Route('/user/{id}', name: 'app_user_show_admin', methods: ['GET'])]
     public function showUser(User $user): Response

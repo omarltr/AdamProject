@@ -90,7 +90,6 @@ class RegistrationFormType extends AbstractType
             'data_class' => User::class,
             'include_password' => true,
             'include_terms' => true,
-
         ]);
     }
 }
