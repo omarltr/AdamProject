@@ -59,47 +59,40 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/{id}/accepter', name: 'app_reservation_accepter', methods: ['GET', 'POST'])]
-    public function accepter(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
+    public function accepter(int $id, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ReservationType::class, $reservation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Changer l'état de l'annonce liée à cette réservation à "Réservé" (état 3)
-            $annonce = $reservation->getAnnonce();
-            $annonce->setEtat(3);
-
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+        $annonce = $entityManager->getRepository(Annonce::class)->find($id);
+    
+        // Vérifie si l'annonce existe
+        if (!$annonce) {
+            throw $this->createNotFoundException('Annonce non trouvée');
         }
-
-        return $this->renderForm('reservation/edit.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form,
-        ]);
+    
+        // Changer l'état de l'annonce à "Réservé" (état 3)
+        $annonce->setEtat(3);
+        $entityManager->flush();
+    
+        // Redirection vers la page de détails de l'annonce
+        return $this->redirectToRoute('app_annonce_show', ['id' => $annonce->getId()], Response::HTTP_SEE_OTHER);
     }
+    
     #[Route('/{id}/refuser', name: 'app_reservation_refuser', methods: ['GET', 'POST'])]
-    public function refuser(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
+    public function refuser(int $id, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ReservationType::class, $reservation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Changer l'état de l'annonce liée à cette réservation à "Annulé" (état 4)
-            $annonce = $reservation->getAnnonce();
-            $annonce->setEtat(4);
-
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+        $annonce = $entityManager->getRepository(Annonce::class)->find($id);
+    
+        // Vérifie si l'annonce existe
+        if (!$annonce) {
+            throw $this->createNotFoundException('Annonce non trouvée');
         }
-
-        return $this->renderForm('reservation/edit.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form,
-        ]);
-    }
+    
+        // Changer l'état de l'annonce à "Annulé" (état 4)
+        $annonce->setEtat(4);
+        $entityManager->flush();
+    
+      
+        return $this->redirectToRoute('app_annonce_show', ['id' => $annonce->getId()], Response::HTTP_SEE_OTHER);
+}
 
     #[Route('/{id}', name: 'app_reservation_delete', methods: ['POST'])]
     public function delete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
