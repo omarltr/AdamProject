@@ -55,9 +55,11 @@
 								class="tab-content">
 								<!-- Annonces Section Start -->
 								<div id="annonces-section" class="tab-pane fade show p-0 active">
-										<h2 class="text-center mb-4">Mes Annonces</h2>
+								<h2 class="text-center mb-4">Mes Reservations</h2>
+
 									<div class="row g-4">
-										{% for annonce in annonces %}
+                                    {% for reservation in reservations %}
+										{% set annonce = reservation.annonce %}
 											{% set adresse = Adresses[annonce.id] ?? null %}
 											<div class="col-lg-4 col-md-6 wow" data-wow-delay="0.1s">
 												<div class="property-item rounded overflow-hidden">
@@ -183,6 +185,5 @@
 			</div>
 		</div>
 	</div>
-
 
 {% endblock %}

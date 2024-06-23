@@ -20,7 +20,6 @@ class AnnonceType extends AbstractType
             ->add('date_fin')
             ->add('prix')
             ->add('categorie')
-            ->add('equipements')
             ->add('capacite')
             ->add('etat', HiddenType::class, ['data' => 1, ])
         ;

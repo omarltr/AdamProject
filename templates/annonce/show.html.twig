@@ -18,22 +18,29 @@
 						<li class="breadcrumb-item text-body active" aria-current="page">Detail</li>
 					</ol>
 				</nav>
+
+
 				<div
 					class="row g-5 align-items-center">
 					<!-- Colonne pour l'image et les boutons à gauche -->
 					<div class="col-lg-4 position-relative overflow-hidden">
-						<div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-							{% if annonce.etat == 1 %}
+						{% if annonce.etat == 1 %}
+							<div class="bg-success rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
 								Disponible
-							{% elseif annonce.etat == 2 %}
-								Non Disponible
-							{% elseif annonce.etat == 3 %}
-								En Attente
-							{% else %}
-								État Inconnu
-							{% endif %}
-						</div>
-
+							</div>
+						{% elseif annonce.etat == 2 %}
+							<div class="bg-warning rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+								En attente
+							</div>
+						{% elseif annonce.etat == 3 %}
+							<div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+								Reservé
+							</div>
+						{% else %}
+							<div class="bg-danger rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+								Annulé
+							</div>
+						{% endif %}
 						<div class="mt-5">
 							{% for image in annonce.images %}
 								<img src="{{ asset('uploads/images/' ~ image.image) }}" alt="{{ image.alt }}" class="img-fluid mb-4">
@@ -41,289 +48,321 @@
 						</div>
 
 						<div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ annonce.categorie }}</div>
+
 					</div>
+
 
 					<!-- Colonne pour les détails de l'annonce et l'adresse à droite -->
 					<div class="col-lg-8">
+
 						<div class="bg-light rounded p-3">
 							<div class="card border-0">
 								<div class="card-body">
-									<div class="mb-5">
-										<header>
-											<h2 class="card-title h3">{{ annonce.nom }}</h2>
-										</header>
-										<section class="mb-4">
-											<p>{{ annonce.description }}</p>
-										</section>
-										<div class="details-section mb-4">
-											<div class="row">
-												<div class="col-md-6">
-													<div class="d-flex align-items-center mb-2">
-														<i class="fas fa-money-bill-alt text-primary me-2"></i>
-														<strong class="text-primary">Prix :</strong>
-														{{ annonce.prix }}
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="d-flex align-items-center mb-2">
-														<i class="far fa-calendar-alt text-primary me-2"></i>
-														<strong class="text-primary">Date de début :</strong>
-														{{ annonce.DateDebut|date('d-m-Y') }}
-													</div>
-													<div class="d-flex align-items-center mb-2">
-														<i class="far fa-calendar-alt text-primary me-2"></i>
-														<strong class="text-primary">Date de fin :</strong>
-														{{ annonce.DateFin|date('d-m-Y') }}
-													</div>
-												</div>
+									<h2 class="card-title h3">Reservation</h2>
+									{% if annonce.etat == 2 %}
+										{% for reservation in reservations %}
+											<!-- Affichage des détails de l'utilisateur -->
+											<div class="mb-3">
+												<h4 class="h5">Détails de l'utilisateur</h4>
+												<p>
+													<strong>Nom :</strong>
+													{{ reservation.user.nom }}</p>
+												<p>
+													<strong>Email :</strong>
+													{{ reservation.user.email }}</p>
+												<p>
+													<strong>Numéro de téléphone :</strong>
+													{{ reservation.user.nTelephone }}</p>
+												<!-- Ajoutez d'autres détails utilisateur si nécessaire -->
 											</div>
-										</div>
-										<div class="position-absolute end-0 bottom-0 m-4">
-											{% if app.user == annonce.user %}
-												<a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}" class="btn btn-outline-primary me-2">
-													<i class="fas fa-pencil-alt"></i>
-													Modifier
-												</a>
-												<a href="{{ path('app_annonce_delete', {'id': annonce.id}) }}" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger">
-													<i class="fas fa-trash-alt"></i>
-													Supprimer
-												</a>
-											{% else %}
-												<a href="{{ path('app_reservation_new', {'id': annonce.id}) }}" data-toggle="modal" data-target="#reservationModal" class="btn btn-outline-primary me-2">Réserver maintenant</a>
-											{% endif %}
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Section pour l'adresse de l'annonce -->
-						<div class="bg-light rounded p-3">
-							<div class="card border-0">
-								<div class="card-body">
-									{% set adresse = annonce.adresse %}
-									<div
-										class="row g-0">
-										<!-- Colonne pour la carte Google Maps -->
-										<div class="col-md-6">
-											<div class="embed-responsive embed-responsive-4by3">
-												<iframe class="embed-responsive-item rounded" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2633.718870160069!2d4.060947215677999!3d48.23253347923298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47ee9da457f20c77%3A0xf84d4c3a6c9e24d7!2s9%20Rue%20Quebec%2C%2010430%20Rosi%C3%A8res-pr%C3%A9s-Troyes%2C%20France!5e0!3m2!1sen!2sfr!4v1603794290143!5m2!1sen!2sfr" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-											</div>
-										</div>
-
-										<!-- Colonne pour les détails de l'adresse -->
-										<div class="col-md-6">
-											<div class="bg-white rounded p-3" style="border: 1px dashed rgba(0, 185, 142, .3)">
-												<div class="d-flex align-items-center">
-													<div class="icon me-3" style="width: 45px; height: 45px;">
-														<i class="fa fa-map-marker-alt text-primary"></i>
-													</div>
-													<div>
-														<h2 class="card-title h3">Adresse</h2>
-														<p>
-															<strong>Rue :</strong>
-															{{ adresse.rue }}</p>
-														<p>
-															<strong>Ville :</strong>
-															{{ adresse.ville }}</p>
-														<p>
-															<strong>Pays :</strong>
-															{{ adresse.pays }}</p>
-														<p>
-															<strong>Code postal :</strong>
-															{{ adresse.codepostal }}</p>
-														{% if adresse.complement %}
-															<p>
-																<strong>Complément d'adresse :</strong>
-																{{ adresse.complement }}</p>
-														{% endif %}
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="end-0 bottom-0">
-											{% if app.user == annonce.user %}
-												<a href="{{ path('app_adresse_edit', {'id': annonce.id}) }}" class="btn btn-outline-primary me-2">
-													<i class="fas fa-pencil-alt"></i>
-													Modifier
-												</a>
-											{% endif %}
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Fin Section pour l'adresse -->
-
-						<!-- Section pour les équipements de l'annonce -->
-						<div class="bg-light rounded p-3">
-							<div class="card border-0">
-								<div class="card-body">
-									<h2 class="card-title h3">Équipements</h2>
-									<ul class="list-group list-group-flush mb-3">
-										{% for equipement in annonce.equipements %}
-											<li class="list-group-item d-flex justify-content-between align-items-center">
-												<span>{{ equipement.nom }}</span>
-												{% if app.user == annonce.user %}
-													<div class="btn-group">
-														<a href="{{ path('app_desaffecter_equipement', {'id': equipement.id, 'annonceId': annonce.id}) }}" class="btn btn-sm btn-outline-danger">
-															<i class="fas fa-times-circle"></i>
-															Désaffecter
-														</a>
-													</div>
-												{% endif %}
-											</li>
-										{% else %}
-											<li class="list-group-item">Aucun équipement disponible.</li>
 										{% endfor %}
-									</ul>
-									{% if app.user == annonce.user %}
-										<div class="d-grid gap-2">
-											<a href="" class="btn btn-outline-primary" data-toggle="modal" data-target="#equipementModal">
-												<i class="fas fa-plus"></i>
-												Ajouter un Équipement
+										<div class="d-flex justify-content-start mt-2">
+											<a href="{{ path('app_reservation_accepter', {'id': annonce.id}) }}" class="btn btn-success me-2">
+												<i class="fas fa-check"></i>
+												Accepter
+											</a>
+											<a href="{{ path('app_reservation_refuser', {'id': annonce.id}) }}" class="btn btn-danger">
+												<i class="fas fa-times"></i>
+												Refuser
 											</a>
 										</div>
+									{% else %}
+										<section class="mb-4">
+											<p>aucune reservation trouvé</p>
+										</section>
 									{% endif %}
+
+
 								</div>
 							</div>
 						</div>
-						<!-- Fin Section pour les équipements -->
 
-						<!-- Section pour les avis de l'annonce -->
-						<div class="bg-light rounded p-3">
-							<div class="border-0">
-								<div class="card-body">
-									<div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
-										{% for avis in annonce.avis %}
-											<div class="testimonial-item bg-light rounded p-3">
-												<div class="bg-white border rounded p-4">
-													<p>{{ avis.commentaire }}</p>
-													<h5 class="card-title">
-														{% for i in range(1, 5) %}
-															{% if i <= avis.note %}
-																<i class="fas fa-star text-warning"></i>
-															{% else %}
-																<i class="far fa-star text-warning"></i>
-															{% endif %}
-														{% endfor %}
-													</h5>
-													<div class="d-flex align-items-center">
-														{% set user = avis.user %}
-														<img class="img-fluid flex-shrink-0 rounded" src="{{ asset('/uploads/Profilephoto/' ~ user.photo) }}" style="width: 45px; height: 45px;">
-														<div class="ps-3">
-															<h6 class="fw-bold mb-1">{{ user.nom }}
-																{{ user.prenom }}</h6>
-															<small>Publié le :
-																{{ avis.date|date('Y-m-d H:i:s') }}</small>
-														</div>
-													</div>
+					</div>
+					<div class="bg-light rounded p-3">
+						<div class="card border-0">
+							<div class="card-body">
+								<div class="mb-5">
+									<header>
+										<h2 class="card-title h3">{{ annonce.nom }}</h2>
+									</header>
+									<section class="mb-4">
+										<p>{{ annonce.description }}</p>
+									</section>
+									<div class="details-section mb-4">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="d-flex align-items-center mb-2">
+													<i class="fas fa-money-bill-alt text-primary me-2"></i>
+													<strong class="text-primary">Prix :</strong>
+													{{ annonce.prix }}
 												</div>
 											</div>
-										{% endfor %}
+											<div class="col-md-6">
+												<div class="d-flex align-items-center mb-2">
+													<i class="far fa-calendar-alt text-primary me-2"></i>
+													<strong class="text-primary">Date de début :</strong>
+													{{ annonce.DateDebut|date('d-m-Y') }}
+												</div>
+												<div class="d-flex align-items-center mb-2">
+													<i class="far fa-calendar-alt text-primary me-2"></i>
+													<strong class="text-primary">Date de fin :</strong>
+													{{ annonce.DateFin|date('d-m-Y') }}
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="position-absolute end-0 bottom-0 m-4">
+										{% if app.user == annonce.user %}
+											<a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}" class="btn btn-outline-primary me-2">
+												<i class="fas fa-pencil-alt"></i>
+												Modifier
+											</a>
+											<a href="{{ path('app_annonce_delete', {'id': annonce.id}) }}" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger">
+												<i class="fas fa-trash-alt"></i>
+												Supprimer
+											</a>
+										{% else %}
+											<a href="{{ path('app_reservation_new', {'id': annonce.id}) }}" data-toggle="modal" data-target="#reservationModal" class="btn btn-outline-primary me-2">Réserver maintenant</a>
+										{% endif %}
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- Fin Section pour les avis -->
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modal -->
-	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Verification</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					...
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div>
-		</div>
-	</div>
 
+					<!-- Section pour l'adresse de l'annonce -->
+					<div class="bg-light rounded p-3">
+						<div class="card border-0">
+							<div class="card-body">
+								{% set adresse = annonce.adresse %}
+								<div
+									class="row g-0">
+									<!-- Colonne pour la carte Google Maps -->
+									<div class="col-md-6">
+										<div class="embed-responsive embed-responsive-4by3">
+											<iframe class="embed-responsive-item rounded" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2633.718870160069!2d4.060947215677999!3d48.23253347923298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47ee9da457f20c77%3A0xf84d4c3a6c9e24d7!2s9%20Rue%20Quebec%2C%2010430%20Rosi%C3%A8res-pr%C3%A9s-Troyes%2C%20France!5e0!3m2!1sen!2sfr!4v1603794290143!5m2!1sen!2sfr" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+										</div>
+									</div>
 
-	<!-- Modal Equipements -->
-	<div class="modal fade" id="equipementModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Ajouter un Equipement</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<!-- Formulaire ou contenu pour sélectionner et affecter un nouvel équipement -->
-					<!-- Exemple de formulaire pour sélectionner un nouvel équipement -->
-						<form action="{{ path('app_affecter_equipement', {'annonceId': annonce.id}) }}" method="POST"> <div class="form-group">
-							<label for="equipement">Sélectionner un équipement</label>
-							<select class="form-control" id="equipement" name="equipement">
-								{% for equipement in equipements %}
-									<option value="{{ equipement.id }}">{{ equipement.nom }}</option>
-								{% endfor %}
-							</select>
-						</div>
-						<button type="submit" class="btn btn-primary">Affecter</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modal Equipements -->
-	<!-- Modal Reservation -->
-	<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					{{ form_start(form) }}
-					<div class="modal-body">
-						<div class="row g-3">
-							<div class="col-md-6">
-								<div class="form-floating">
-									{{ form_widget(form.date, {'attr': {'class': 'form-control ', 'placeholder': 'JJ/MM/AAAA'}}) }}
-									{{ form_label(form.date, 'Date de début', {'label_attr': {'class': 'form-label'}}) }}
-									{{ form_errors(form.date) }}
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-floating">
-									{{ form_widget(form.dateFin, {'attr': {'class': 'form-control ', 'placeholder': 'JJ/MM/AAAA'}}) }}
-									{{ form_label(form.dateFin, 'Date de fin', {'label_attr': {'class': 'form-label'}}) }}
-									{{ form_errors(form.dateFin) }}
+									<!-- Colonne pour les détails de l'adresse -->
+									<div class="col-md-6">
+										<div class="bg-white rounded p-3" style="border: 1px dashed rgba(0, 185, 142, .3)">
+											<div class="d-flex align-items-center">
+												<div class="icon me-3" style="width: 45px; height: 45px;">
+													<i class="fa fa-map-marker-alt text-primary"></i>
+												</div>
+												<div>
+													<h2 class="card-title h3">Adresse</h2>
+													<p>
+														<strong>Rue :</strong>
+														{{ adresse.rue }}</p>
+													<p>
+														<strong>Ville :</strong>
+														{{ adresse.ville }}</p>
+													<p>
+														<strong>Pays :</strong>
+														{{ adresse.pays }}</p>
+													<p>
+														<strong>Code postal :</strong>
+														{{ adresse.codepostal }}</p>
+													{% if adresse.complement %}
+														<p>
+															<strong>Complément d'adresse :</strong>
+															{{ adresse.complement }}</p>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="end-0 bottom-0">
+										{% if app.user == annonce.user %}
+											<a href="{{ path('app_adresse_edit', {'id': annonce.id}) }}" class="btn btn-outline-primary me-2">
+												<i class="fas fa-pencil-alt"></i>
+												Modifier
+											</a>
+										{% endif %}
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row g-3 mt-3">
-							<div class="col-12">
-								<button type="submit" class="btn btn-primary">Save changes</button>
-								<button type="button" class="btn btn-secondary ms-2" data-dismiss="modal">Close</button>
+					</div>
+					<!-- Fin Section pour l'adresse -->
+
+					<!-- Section pour les équipements de l'annonce -->
+					<div class="bg-light rounded p-3">
+						<div class="card border-0">
+							<div class="card-body">
+								<h2 class="card-title h3">Équipements</h2>
+								<ul class="list-group list-group-flush mb-3">
+									{% for equipement in annonce.equipements %}
+										<li class="list-group-item d-flex justify-content-between align-items-center">
+											<span>{{ equipement.nom }}</span>
+											{% if app.user == annonce.user %}
+												<div class="btn-group">
+													<a href="{{ path('app_desaffecter_equipement', {'id': equipement.id, 'annonceId': annonce.id}) }}" class="btn btn-sm btn-outline-danger">
+														<i class="fas fa-times-circle"></i>
+														Désaffecter
+													</a>
+												</div>
+											{% endif %}
+										</li>
+									{% else %}
+										<li class="list-group-item">Aucun équipement disponible.</li>
+									{% endfor %}
+								</ul>
+								{% if app.user == annonce.user %}
+									<div class="d-grid gap-2">
+										<a href="" class="btn btn-outline-primary" data-toggle="modal" data-target="#equipementModal">
+											<i class="fas fa-plus"></i>
+											Ajouter un Équipement
+										</a>
+									</div>
+								{% endif %}
 							</div>
 						</div>
 					</div>
-					{{ form_end(form) }}
+					<!-- Fin Section pour les équipements -->
+
+					<!-- Section pour les avis de l'annonce -->
+					<div class="bg-light rounded p-3">
+						<div class="border-0">
+							<div class="card-body">
+								<div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+									{% for avis in annonce.avis %}
+										<div class="testimonial-item bg-light rounded p-3">
+											<div class="bg-white border rounded p-4">
+												<p>{{ avis.commentaire }}</p>
+												<h5 class="card-title">
+													{% for i in range(1, 5) %}
+														{% if i <= avis.note %}
+															<i class="fas fa-star text-warning"></i>
+														{% else %}
+															<i class="far fa-star text-warning"></i>
+														{% endif %}
+													{% endfor %}
+												</h5>
+												<div class="d-flex align-items-center">
+													{% set user = avis.user %}
+													<img class="img-fluid flex-shrink-0 rounded" src="{{ asset('/uploads/Profilephoto/' ~ user.photo) }}" style="width: 45px; height: 45px;">
+													<div class="ps-3">
+														<h6 class="fw-bold mb-1">{{ user.nom }}
+															{{ user.prenom }}</h6>
+														<small>Publié le :
+															{{ avis.date|date('Y-m-d H:i:s') }}</small>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Fin Section pour les avis -->
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!-- Modal Reservation-->
-	
-
-{% endblock %}
+</div><!-- Modal --><div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Verification</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				...
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div><!-- Modal Equipements --><div class="modal fade" id="equipementModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Ajouter un Equipement</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- Formulaire ou contenu pour sélectionner et affecter un nouvel équipement -->
+				<!-- Exemple de formulaire pour sélectionner un nouvel équipement -->
+					<form action="{{ path('app_affecter_equipement', {'annonceId': annonce.id}) }}" method="POST"> <div class="form-group">
+						<label for="equipement">Sélectionner un équipement</label>
+						<select class="form-control" id="equipement" name="equipement">
+							{% for equipement in equipements %}
+								<option value="{{ equipement.id }}">{{ equipement.nom }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary">Affecter</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div><!-- Modal Equipements --><!-- Modal Reservation --><div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				{{ form_start(form) }}
+				<div class="modal-body">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<div class="form-floating">
+								{{ form_widget(form.date, {'attr': {'class': 'form-control ', 'placeholder': 'JJ/MM/AAAA'}}) }}
+								{{ form_label(form.date, 'Date de début', {'label_attr': {'class': 'form-label'}}) }}
+								{{ form_errors(form.date) }}
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-floating">
+								{{ form_widget(form.dateFin, {'attr': {'class': 'form-control ', 'placeholder': 'JJ/MM/AAAA'}}) }}
+								{{ form_label(form.dateFin, 'Date de fin', {'label_attr': {'class': 'form-label'}}) }}
+								{{ form_errors(form.dateFin) }}
+							</div>
+						</div>
+					</div>
+					<div class="row g-3 mt-3">
+						<div class="col-12">
+							<button type="submit" class="btn btn-primary">Save changes</button>
+							<button type="button" class="btn btn-secondary ms-2" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+</div><!-- Modal Reservation-->{% endblock %}
