@@ -28,6 +28,9 @@ class Reservation
 
     private ?User $user = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateFin = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +80,18 @@ class Reservation
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDateFin(): ?\DateTimeInterface
+    {
+        return $this->dateFin;
+    }
+
+    public function setDateFin(\DateTimeInterface $dateFin): static
+    {
+        $this->dateFin = $dateFin;
 
         return $this;
     }
