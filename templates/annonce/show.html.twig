@@ -59,7 +59,11 @@
 							<div class="card border-0">
 								<div class="card-body">
 									<h2 class="card-title h3">Reservation</h2>
-									{% if annonce.etat == 2 %}
+									{% if annonce.etat == 1 %}
+										<section class="mb-4">
+											<p>aucune reservation trouvé</p>
+										</section>
+									{% else %}
 										{% for reservation in reservations %}
 											<!-- Affichage des détails de l'utilisateur -->
 											<div class="mb-3">
@@ -86,12 +90,7 @@
 												Refuser
 											</a>
 										</div>
-									{% else %}
-										<section class="mb-4">
-											<p>aucune reservation trouvé</p>
-										</section>
 									{% endif %}
-
 
 								</div>
 							</div>
