@@ -24,7 +24,7 @@ class AdresseType extends AbstractType
             ])
             ->add('codePostal',TextType::class, [
                 'label' => 'Code Postal',
-                'attr' => ['maxlength' => 5, 'minlength' => 4, 'pattern' => '[0-9]{5}'],
+                'attr' => ['maxlength' => 5, 'minlength' => 3, 'pattern' => '[0-9]{5}'],
             ])
             ->add('pays', ChoiceType::class, [
                 'label' => 'Pays',

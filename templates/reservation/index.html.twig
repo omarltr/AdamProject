@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Date</th>
                 <th>DateFin</th>
                 <th>actions</th>
@@ -17,7 +16,6 @@
         <tbody>
         {% for reservation in reservations %}
             <tr>
-                <td>{{ reservation.id }}</td>
                 <td>{{ reservation.date ? reservation.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
@@ -33,5 +31,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reservation_new') }}">Create new</a>
 {% endblock %}

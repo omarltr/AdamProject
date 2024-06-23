@@ -18,20 +18,26 @@ class ReservationController extends AbstractController
     #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
     public function index(ReservationRepository $reservationRepository): Response
     {
+
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+
         return $this->render('reservation/index.html.twig', [
-            'reservations' => $reservationRepository->findAll(),
+            'reservations' => $reservationRepository->findByUser($this->getUser()),
         ]);
     }
 
     #[Route('/{id}/new', name: 'app_reservation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager,Annonce $annonce): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Annonce $annonce): Response
     {
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
         $reservation = $reservation->setAnnonce($annonce);
         if ($form->isSubmitted() && $form->isValid()) {
-           
+
             $entityManager->persist($reservation);
             $entityManager->flush();
 
@@ -52,13 +58,38 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_reservation_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/accepter', name: 'app_reservation_accepter', methods: ['GET', 'POST'])]
+    public function accepter(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Changer l'état de l'annonce liée à cette réservation à "Réservé" (état 3)
+            $annonce = $reservation->getAnnonce();
+            $annonce->setEtat(3);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('reservation/edit.html.twig', [
+            'reservation' => $reservation,
+            'form' => $form,
+        ]);
+    }
+    #[Route('/{id}/refuser', name: 'app_reservation_refuser', methods: ['GET', 'POST'])]
+    public function refuser(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ReservationType::class, $reservation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Changer l'état de l'annonce liée à cette réservation à "Annulé" (état 4)
+            $annonce = $reservation->getAnnonce();
+            $annonce->setEtat(4);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
@@ -73,7 +104,7 @@ class ReservationController extends AbstractController
     #[Route('/{id}', name: 'app_reservation_delete', methods: ['POST'])]
     public function delete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$reservation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->request->get('_token'))) {
             $entityManager->remove($reservation);
             $entityManager->flush();
         }

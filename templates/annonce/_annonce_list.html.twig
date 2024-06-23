@@ -9,17 +9,24 @@
 						<div class="col-lg-4 col-md-6 wow " data-wow-delay="0.1s">
 							<div class="property-item rounded overflow-hidden">
 								<div class="position-relative overflow-hidden">
-									<div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-										{% if annonce.etat == 1 %}
+									{% if annonce.etat == 1 %}
+										<div class="bg-success rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
 											Disponible
-										{% elseif annonce.etat == 2 %}
-											Non disponible
-										{% elseif annonce.etat == 3 %}
+										</div>
+									{% elseif annonce.etat == 2 %}
+										<div class="bg-warning rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
 											En attente
-										{% else %}
-											État inconnu
-										{% endif %}
-									</div>
+										</div>
+									{% elseif annonce.etat == 3 %}
+										<div class="bg-info rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+											Reservé
+										</div>
+									{% else %}
+										<div class="bg-danger rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+											Annulé
+										</div>
+									{% endif %}
+
 									{% for image in annonce.images %}
 										<a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">
 											<img src="{{ asset('uploads/images/' ~ image.image) }}" alt="{{ image.alt }}" class="img-fluid">

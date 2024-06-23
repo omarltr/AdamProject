@@ -41,10 +41,22 @@
 
 				<td style="font-weight: bold;">{{ annonce.prix }}$</td>
 				<td>
-					{% if annonce.etat ==  1 %}
-						<span class="badge badge-success">disponible</span>
+					{% if annonce.etat == 1 %}
+						<span class=" badgebg-success ">
+							Disponible
+						</span>
+					{% elseif annonce.etat == 2 %}
+						<span class="badge bg-warning ">
+							En attente
+						</span>
+					{% elseif annonce.etat == 3 %}
+						<span class="badge bg-info ">
+							Reservé
+						</span>
 					{% else %}
-						Non Disponible
+						<span class="badge  bg-danger ">
+							Annulé
+						</span>
 					{% endif %}
 				</td>
 				<td class="project-actions text-right">

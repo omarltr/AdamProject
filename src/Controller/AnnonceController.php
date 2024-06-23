@@ -16,6 +16,7 @@ use App\Entity\Equipements;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\EquipementsRepository;
+use App\Repository\ReservationRepository;
 
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
@@ -101,7 +102,7 @@ class AnnonceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_annonce_show', methods: ['GET', 'POST'])]
-    public function show(EquipementsRepository $equipementsRepository, int $id, Request $request, EntityManagerInterface $entityManager): Response
+    public function show(ReservationRepository $reservationRepository, EquipementsRepository $equipementsRepository, int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $equipements = $equipementsRepository->findAll();
         $annonce = $entityManager->getRepository(Annonce::class)->find($id);
@@ -122,6 +123,9 @@ class AnnonceController extends AbstractController
 
         // Traitement du formulaire soumis
         if ($form->isSubmitted() && $form->isValid()) {
+            // Modifier l'état de l'annonce
+            $annonce->setEtat(2);
+
             $entityManager->persist($reservation);
             $entityManager->flush();
 
@@ -129,14 +133,17 @@ class AnnonceController extends AbstractController
             return $this->redirectToRoute('app_annonce_show', ['id' => $annonce->getId()]);
         }
 
+        // Récupération des réservations de l'annonce
+        $reservations = $reservationRepository->findByAnnonce($annonce);
+
         // Affichage de la page avec le formulaire de réservation
         return $this->render('annonce/show.html.twig', [
             'annonce' => $annonce,
             'form' => $form->createView(),
-            'equipements' => $equipements
+            'equipements' => $equipements,
+            'reservations' => $reservations
         ]);
     }
-
 
     #[Route('/{id}/edit', name: 'app_annonce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annonce $annonce, EntityManagerInterface $entityManager): Response
