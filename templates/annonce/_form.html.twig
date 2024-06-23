@@ -58,6 +58,14 @@
             {{ form_errors(form.equipements) }}
         </div>
     </div>
+    <div class="col-12">
+        <div class="form-floating">
+            {{ form_widget(form.capacite, {'attr': {'class': 'form-control', 'id': 'capacite'}}) }}
+            {{ form_label(form.capacite, 'capacite', {'label_attr': {'for': 'capacite'}}) }}
+            {{ form_errors(form.capacite) }}
+        </div>
+    </div>
+    
     
     <!-- Bouton Suivant -->
     <div class="col-12">

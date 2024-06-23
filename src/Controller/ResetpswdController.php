@@ -72,7 +72,7 @@ class ResetpswdController extends AbstractController
 
             if ($user) {
                 // If the email does not exist, send an email notification
-                $transport = Transport::fromDsn('smtp://omar.laatter@gmail.com:ftgu%20vdgz%20nwtx%20fetj@smtp.gmail.com:587');
+                $transport = Transport::fromDsn('smtp://ademkhdher@gmail.com:rijx%20emmd%20hfbq%20kehx@smtp.gmail.com:587');
                 $mailer = new \Symfony\Component\Mailer\Mailer($transport);
 
                 $token = bin2hex(random_bytes(32));
@@ -84,7 +84,7 @@ class ResetpswdController extends AbstractController
                 echo "<script>console.log(" . json_encode($resetUrl) . ");</script>";
 
                 $emailMessage = (new Email())
-                    ->from('omar.laatter@gmail.com')
+                    ->from('ademkhdher@gmail.com')
                     ->to($email)
                     ->subject('on va envouye le lient pour reset password ')
                     ->html("<p>Click the following link to reset your password: <a href='{$resetUrl}'>Reset Password</a></p>");

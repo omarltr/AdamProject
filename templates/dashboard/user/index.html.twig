@@ -39,6 +39,11 @@
         </div>
     </form>
 </div>
+
+<div class="container-fluid" style="padding-bottom: 10px">
+    <button onclick="openModal()" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Add admin</button>
+</div>
+
 <div class="container-fluid">
     <section class="content">
         <div class="card">
@@ -60,7 +65,72 @@
     </section>
 </div>
 
+<!-- Modal container -->
+<div id="myModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Modal body to display the form -->
+            <div class="modal-body">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.prenom) }}
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.prenom) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.n_telephone) }}
+                    {{ form_widget(form.n_telephone, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.n_telephone) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.photo) }}
+                    {{ form_widget(form.photo, {'attr': {'class': 'form-control-file'}}) }}
+                    {{ form_errors(form.photo) }}
+                </div>
+                        <div class="form-group">
+                    {{ form_label(form.password) }}
+                    {{ form_widget(form.password , {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.password) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+function openModal() {
+    // Get the modal element
+    var modal = document.getElementById("myModal");
+    // Open the modal
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+
+function submitForm() {
+    var form = document.querySelector("#myModal form");
+    form.submit();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search');
 
@@ -77,5 +147,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+window.onclick = function(event) {
+    var modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        closeModal();
+    }
+}
 </script>
 {% endblock %}
