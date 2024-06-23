@@ -190,24 +190,24 @@ class AnnonceController extends AbstractController
     }
 
     #[Route('/annonce/{annonceId}/affecter', name: 'app_affecter_equipement', methods: ['POST'])]
-public function affecterEquipement(int $annonceId, Request $request, EntityManagerInterface $entityManager): Response
-{
-    $equipementId = $request->request->get('equipement');
+    public function affecterEquipement(int $annonceId, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $equipementId = $request->request->get('equipement');
 
-    // Récupérer l'équipement et l'annonce concernés
-    $equipement = $entityManager->getRepository(Equipements::class)->find($equipementId);
-    $annonce = $entityManager->getRepository(Annonce::class)->find($annonceId);
+        // Récupérer l'équipement et l'annonce concernés
+        $equipement = $entityManager->getRepository(Equipements::class)->find($equipementId);
+        $annonce = $entityManager->getRepository(Annonce::class)->find($annonceId);
 
-    // Vérifier si l'équipement et l'annonce existent
-    if (!$equipement || !$annonce) {
-        throw $this->createNotFoundException('L\'équipement ou l\'annonce n\'existe pas.');
+        // Vérifier si l'équipement et l'annonce existent
+        if (!$equipement || !$annonce) {
+            throw $this->createNotFoundException('L\'équipement ou l\'annonce n\'existe pas.');
+        }
+
+        // Affecter l'équipement à l'annonce
+        $annonce->addEquipement($equipement);
+        $entityManager->flush();
+
+        // Redirection vers la même page d'annonce après l'affectation
+        return $this->redirectToRoute('app_annonce_show', ['id' => $annonceId]);
     }
-
-    // Affecter l'équipement à l'annonce
-    $annonce->addEquipement($equipement);
-    $entityManager->flush();
-
-    // Redirection vers la même page d'annonce après l'affectation
-    return $this->redirectToRoute('app_annonce_show', ['id' => $annonceId]);
-}
 }
