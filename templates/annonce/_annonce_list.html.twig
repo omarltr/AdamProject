@@ -6,7 +6,6 @@
 				<div class="row g-4">
 					{% for annonce in Annonces %}
 						{% set adresse = Adresses[annonce.id] ?? null %}
-						{% set image = Images[annonce.id] ?? null %}
 						<div class="col-lg-4 col-md-6 wow " data-wow-delay="0.1s">
 							<div class="property-item rounded overflow-hidden">
 								<div class="position-relative overflow-hidden">
@@ -14,16 +13,18 @@
 										{% if annonce.etat == 1 %}
 											Disponible
 										{% elseif annonce.etat == 2 %}
-											N
+											Non disponible
 										{% elseif annonce.etat == 3 %}
-											Disponible
+											En attente
 										{% else %}
-											Disponible
+											État inconnu
 										{% endif %}
 									</div>
-									{% if image %}
-										<img src="{{ asset('uploads/images/' ~ image.image) }}" alt="{{image.alt}}" class="img-fluid">
-									{% endif %}
+									{% for image in annonce.images %}
+										<a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">
+											<img src="{{ asset('uploads/images/' ~ image.image) }}" alt="{{ image.alt }}" class="img-fluid">
+										</a>
+									{% endfor %}
 									<div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ annonce.categorie }}</div>
 								</div>
 								<div class="p-4 pb-0">
@@ -50,4 +51,7 @@
 						</div>
 					{% endfor %}
 				</div>
-				<!-- Category End -->
+			</div>
+		</div>
+	</div>
+</div>
